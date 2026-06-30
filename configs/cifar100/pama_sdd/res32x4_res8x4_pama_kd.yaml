@@ -1,0 +1,10 @@
+﻿_base_: ../base.yaml
+DISTILLER:
+  NAME: PAMA_KD
+
+STUDENT:
+  NAME: resnet8x4
+
+TEACHER:
+  NAME: resnet32x4
+

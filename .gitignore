@@ -1,0 +1,29 @@
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp/
+
+# Local environments and editor state
+.venv/
+venv/
+env/
+.env
+.idea/
+.vscode/
+
+# Large datasets, checkpoints, and experiment outputs
+data/
+runs/
+weights/
+*.log
+*.pth
+*.pt
+*.ckpt
+*.tar
+*.tar.gz
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db

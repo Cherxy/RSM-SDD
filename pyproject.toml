@@ -1,0 +1,9 @@
+[project]
+name = "pama-sdd-repro"
+version = "0.1.0"
+description = "PAMA-SDD reproduction package built in an MDistiller-compatible layout."
+requires-python = ">=3.8"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
