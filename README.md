@@ -1,214 +1,244 @@
-# PAMA-SDD++
+# RSM
 
-**Pyramid and Agent-Mediated Attention for Scale-Decoupled Knowledge Distillation (enhanced)**
+## Reliability-Aware Semantic Mediation for Scale-Decoupled Knowledge Distillation
 
-PAMA-SDD++ is a classification-oriented knowledge distillation framework built around a single theme: **local–global semantic-consistency distillation**. A feature pyramid supplies multi-scale *local* evidence, a compact set of *agent tokens* carries *global* semantic organization, and scale-decoupled distillation (SDD) aligns them. The three cooperate toward one objective instead of being three stacked add-ons. All extra modules are training-only; inference keeps the original compact student.
+Official PyTorch implementation of **Reliability-Aware Semantic Mediation (RSM)**.
+
+RSM is a training-time extension of Scale-Decoupled Distillation (SDD) for image classification. It preserves the architecture-agnostic logit interface of response-based knowledge distillation while addressing two limitations of fixed-grid regional supervision:
+
+1. regional targets assigned to the same SDD group can have very different reliability; and
+2. constructing every regional logit from the penultimate feature leaves earlier student evidence unused.
+
+RSM introduces a continuous teacher-confidence factor, a student-only **Hierarchical Semantic Calibration (HSC) - Semantic Agent Bridge (SAB)** pathway, and **Global Agent Consistency (GAC)** for channel-agnostic relation transfer. Every mediation component is used only during training; the deployed student keeps its original architecture and computation graph.
 
 <p align="center">
-  <img src="assets/overview1.png" alt="PAMA-SDD++ overview" width="95%">
+  <img src="assets/rsm_overview.png" alt="Overview of RSM training" width="96%">
 </p>
 
-## Core Contributions
+## Abstract
 
-1. **Unified local–global consistency distillation framework.** Multi-scale local evidence (pyramid / SDD) and global semantic organization (agent tokens) are placed in one distillation framework, transferring both local detail and global semantic structure.
-2. **Student-side Semantic-Prototype Routing (SPR).** CSAM uses learnable prototype queries on the student branch to cluster cross-scale region tokens into compact semantic agents. The teacher branch remains a frozen stable target; SPR only builds the student's distillation mediator.
-3. **Relation-graph + reliability-aware consistency objectives.** Agent relation-graph consistency (**GAC**, used as an auxiliary relation constraint), reliability-weighted local distillation, and local–global coherence (**LGC**) jointly reduce grid-partition noise and semantic fragmentation without changing the deployed student.
+Logit-based knowledge distillation transfers class-level predictions through a common output space, but image-level logits discard the spatial evidence behind each decision. SDD recovers local evidence by applying the original classifier to fixed-grid regional descriptors and assigning binary consistent/complementary weights. RSM refines this regional supervision in two ways. First, it continuously modulates every teacher region according to predictive confidence. Second, it calibrates and mediates multi-level student evidence before regional classification. A fixed-size agent relation graph further transfers geometry without requiring teacher and student feature channels to match.
 
-Supporting components (implementation details / ablation knobs, built on cited prior work): APF channel-spatial adaptive pyramid fusion, AMA LayerScale + depth-wise local positional branch, and stable frozen-teacher targets. GSMF is kept only as an optional ablation/extension, not as the main method setting.
+Across CIFAR-100, ImageNet-1K, and CUB-200-2011 with KD, DKD, and NKD objectives, RSM improves **50 of 51 matched top-1 comparisons**, with a median gain of **0.91 percentage points** over the corresponding SDD variants.
 
-> APF (progressive feature pyramid), Agent Attention, and SDD are prior work and are cited in the paper. `GAC_MODE=gram` reverts GAC to the legacy cosine-Gram MSE for ablation.
+## Method
 
-### Core Contributions ↔ Code
+### Asymmetric teacher-student design
 
-| Contribution | File | Key symbols |
+The teacher is pretrained, frozen, kept in evaluation mode, and evaluated under stop-gradient. It provides:
+
+- image-level logits;
+- fixed-grid regional logits from its penultimate spatial feature; and
+- ordered pooled descriptors used to construct the teacher relation graph.
+
+The teacher contains no trainable HSC, routing, or SAB module. Representation learning is confined to the student branch, which prevents the target space from drifting during training.
+
+### Hierarchical Semantic Calibration
+
+HSC selects multiple student stages, projects them to a common width, and calibrates them from deep to shallow. At each higher-resolution level, an adaptive semantic fusion unit combines local detail with the resized calibrated output of the next deeper stage. A learnable residual scale introduces the fused context without replacing the original local representation.
+
+This produces a semantically strengthened hierarchy while retaining the spatial detail needed for regional classification.
+
+### Semantic Agent Bridge
+
+SAB connects distant regions and non-adjacent feature levels through an efficient region-agent-region path:
+
+1. calibrated features from all selected levels are flattened and concatenated into one token bank;
+2. learned routing anchors summarize the token bank into image-conditioned semantic agents;
+3. region-to-agent attention refines the agents with evidence from every level; and
+4. agent-to-region attention broadcasts the shared context back to every selected level.
+
+The same compact agent set is also used to construct the student relation graph for GAC. With `A` agents and `N` regional tokens, the mediated interaction scales with `A x N` rather than the `N x N` affinity of dense all-token self-attention.
+
+### Reliability-aware Local SDD
+
+RSM retains SDD's original consistent/complementary regional factor and multiplies it by a continuous reliability term derived from the teacher distribution:
+
+```text
+w_region = w_reliability * w_SDD
+```
+
+A uniform teacher distribution maps to the minimum reliability weight, while a concentrated distribution approaches one. This quantity measures predictive concentration; it is not an objectness or foreground score.
+
+Regional logits are produced by adaptive pooling and the original classifier. RSM does not introduce a separate regional classification head.
+
+### Global Agent Consistency
+
+GAC aligns teacher and student agent-relation geometry through a fixed-size `A x A` interface. Because the comparison is performed between normalized relation graphs, teacher and student may have different feature channels and architectures.
+
+### Training objective
+
+The final objective in the paper is:
+
+```text
+L_total = L_CE + L_Global + lambda_SDD * L_Local + lambda_GAC * L_GAC
+```
+
+`L_Global` and the regional divergence inside `L_Local` use the selected base response objective. This gives the three paper variants:
+
+| Paper variant | Base objective |
+|---|---|
+| RSM-KD | KD |
+| RSM-DKD | DKD |
+| RSM-NKD | NKD |
+
+## Paper-to-Code Map
+
+Some source symbols and configuration paths predate the final RSM paper terminology. They are retained for checkpoint and experiment compatibility.
+
+| Paper component | Source file | Current internal symbol |
 |---|---|---|
-| Unified framework + GAC + LGC + reliability-aware local SDD | [`mdistiller/distillers/pama_sdd.py`](mdistiller/distillers/pama_sdd.py) | `PAMASDD`, `_gac_loss` (GAC), `_lgc_loss` (LGC), `_reliability_weight` |
-| Student-side SPR / Cross-Scale Agent Mediation (CSAM) | [`mdistiller/modules/csam.py`](mdistiller/modules/csam.py) | `CSAM`, `CSAM_AGENT_INIT: routing` |
-| APF++ pyramid calibration (supporting) | [`mdistiller/modules/apf.py`](mdistiller/modules/apf.py) | `APF`, `APFGate` |
-| SDD local logits (supporting) | [`mdistiller/modules/spp.py`](mdistiller/modules/spp.py) | `spp_logits` |
+| Complete RSM training-time distiller | [`mdistiller/distillers/pama_sdd.py`](mdistiller/distillers/pama_sdd.py) | `PAMASDD` |
+| Hierarchical Semantic Calibration | [`mdistiller/modules/apf.py`](mdistiller/modules/apf.py) | `APF`, `APFGate` |
+| Semantic Agent Bridge | [`mdistiller/modules/csam.py`](mdistiller/modules/csam.py) | `CSAM` |
+| Fixed-grid regional logits | [`mdistiller/modules/spp.py`](mdistiller/modules/spp.py) | `spp_logits` |
+| Reliability-aware Local SDD | [`mdistiller/distillers/sdd.py`](mdistiller/distillers/sdd.py) | `local_kd_loss` |
+| RSM-KD / RSM-DKD / RSM-NKD registry | [`mdistiller/distillers/__init__.py`](mdistiller/distillers/__init__.py) | `PAMA_KD`, `PAMA_DKD`, `PAMA_NKD` |
 
-Each of these files carries an in-code banner marking whether it is a core contribution or a supporting component.
+The `PAMA_*` names above are implementation identifiers only; the method reported in the paper and presented by this repository is **RSM**.
 
-## Method Overview
+## Main Results
 
-Given an input image, a frozen teacher and a trainable student extract hierarchical features. PAMA-SDD++ applies **APF** to produce calibrated pyramid features, then student-side **SPR/CSAM** uses prototype agents as semantic mediators: local region tokens are aggregated into cross-scale agents, and the agent-mediated context is broadcast back to enhanced local features. The teacher branch is not modified by APF/CSAM/SPR; it provides stable logits, local logits, and pooled-agent relation targets.
+RSM is evaluated on CIFAR-100, ImageNet-1K, and CUB-200-2011 across convolutional teacher-student pairs and three response objectives.
 
-Enhanced student features are partitioned into multi-scale grids (e.g. `M = {1, 2, 4}`) and distilled against stable teacher targets with a reliability-aware local SDD loss. In parallel, **GAC** acts as an auxiliary relation constraint between student semantic agents and frozen teacher pooled-agent relations, while **LGC** keeps local predictions consistent with the teacher's global semantics. The objective combines classification, global logit distillation, local SDD, GAC and LGC:
+| Dataset | Representative result | Improvement over matched SDD |
+|---|---:|---:|
+| CIFAR-100, ResNet32x4 -> ShuffleNetV1, RSM-DKD | 79.18 top-1 | +1.88 |
+| ImageNet-1K, ResNet50 -> MobileNetV1, RSM-DKD | 73.60 top-1 / 91.83 top-5 | +0.52 / +0.74 |
+| CUB-200-2011, VGG13 -> MobileNetV2, RSM-NKD | 69.09 top-1 | +4.46 |
 
-```text
-L_total = L_CE + L_global + w_sdd * L_local + w_gac * L_GAC + w_lgc * L_LGC
-```
+In the controlled three-seed CIFAR-100 ablation:
 
-Three base logit objectives are supported: `PAMA_KD`, `PAMA_DKD`, `PAMA_NKD` (registered in `mdistiller/distillers/__init__.py`).
+| Teacher -> Student | SD-DKD | Full RSM-DKD |
+|---|---:|---:|
+| ResNet32x4 -> ResNet8x4 | 77.46 +/- 0.12 | **78.55 +/- 0.10** |
+| ResNet32x4 -> ShuffleNetV1 | 77.30 +/- 0.11 | **79.18 +/- 0.08** |
 
-## Repository Layout
+HSC, SAB, reliability-aware weighting, and GAC each contribute to the final result, and the complete model performs best in both controlled settings.
 
-```text
-configs/                 Experiment configs for CIFAR-100, ImageNet-1K, and CUB-200-2011
-mdistiller/
-  dataset/               Dataset builders (cifar100, imagenet, cub200) + augmentation
-  models/                Teacher/student backbones + registry
-  modules/               Core contribution modules: apf.py (APF++), csam.py (CSAM), spp.py (SDD)
-  distillers/            pama_sdd.py (framework + GAC/LGC/reliability) and base losses (kd/dkd/nkd)
-  engine/                cfg, trainer, utils
-scripts/                 Example training scripts
-tests/                   Smoke tests and dataset-path checks
-tools/                   Utility / analysis scripts
-train.py                 Main training entry point
-README_zh.md             Chinese notes: contributions, config map, full command reference
-```
+## Default Paper Settings
 
-Large local artifacts are intentionally git-ignored: `data/ runs/ weights/ *.log *.pth *.pt *.ckpt *.tar *.zip`.
+Unless an architecture-specific configuration states otherwise, the paper uses:
+
+| Setting | Value |
+|---|---:|
+| Regional grids | `{1, 2, 4}` |
+| Number of agents | `16` |
+| Shared embedding width | `256` |
+| Attention heads | `4` |
+| Reliability floor | `0.2` |
+| Reliability exponent | `1.0` |
+| SDD consistent/complementary weights | `1 / 2` |
+| Local SDD coefficient | `1.0` |
+| GAC coefficient | `0.5` |
+| Distillation warmup | `30 epochs` |
+| HSC residual-scale initialization | `0.5` |
+| SAB LayerScale initialization | `1e-4` |
+
+KD and DKD use temperature `4`; DKD uses `alpha=1` and `beta=8`. NKD uses temperature `1` and `gamma=1.5`. Semantic prototype routing initializes the student agents.
 
 ## Installation
 
+Python 3.10 and PyTorch 2.x are recommended.
+
 ```bash
-conda create -n pama-sdd python=3.10 -y
-conda activate pama-sdd
-# Install a PyTorch build matching your CUDA first, e.g. CUDA 12.1:
+conda create -n rsm-sdd python=3.10 -y
+conda activate rsm-sdd
+
+# Install the PyTorch build matching your CUDA version first.
+# Example for CUDA 12.1:
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+
 pip install -r requirements.txt
 pip install -e .
 ```
 
-Quick checks:
+Verify the installation:
 
 ```bash
 python tools/verify_install.py
-pytest
+python -m pytest -q
 ```
 
-## Data Preparation
+## Data and Teacher Checkpoints
 
-Place datasets under `data/` or pass a custom path with `--data-root`:
+Datasets, pretrained teachers, checkpoints, and experiment outputs are not included in the repository.
 
 ```text
-data/cifar100
-data/imagenet
-data/CUB_200_2011
+data/
+|-- cifar100/
+|-- imagenet/
+`-- CUB_200_2011/
 ```
 
-For CUB-200-2011 (CaltechDATA mirror):
+Set `MODEL.TEACHER_CKPT` in the selected YAML file before training. Teachers must be pretrained on the corresponding target training split. `--allow-random-teacher` is provided only for debugging and must not be used for reported accuracy.
+
+## Training
+
+The training entry point is `train.py`:
 
 ```bash
-mkdir -p data && cd data
-wget -O CUB_200_2011.tgz "https://data.caltech.edu/records/65de6-vp158/files/CUB_200_2011.tgz?download=1"
-tar -xzf CUB_200_2011.tgz && cd ..
+python train.py \
+  --cfg <path-to-config.yaml> \
+  --data-root <path-to-dataset> \
+  --output ./runs/<experiment-name> \
+  --gpu 0
 ```
 
-## Teacher Checkpoints
-
-Final accuracy requires pretrained teacher checkpoints; set `MODEL.TEACHER_CKPT` in each YAML. Example paths:
-
-```text
-save/models/resnet32x4_vanilla/ckpt_epoch_240.pth
-save/cub200/resnet32x4/ckpt.pth
-save/imagenet/resnet34/ckpt.pth
-```
-
-`--allow-random-teacher` is for debugging only and must not be used for reported accuracy.
-
-## Quick Start
+Example using an existing CIFAR-100 configuration:
 
 ```bash
-# CIFAR-100, ResNet32x4 -> MobileNetV2, PAMA-DKD
-python train.py --cfg configs/cifar100/pama_dkd/res32x4_mv2.yaml \
-  --data-root ./data/cifar100 --output ./runs/cifar100_res32x4_mv2_pama_dkd --gpu 0
-
-# Main paper setting: student-side SPR + reliability + auxiliary GAC, GSMF off
-python train.py --cfg configs/cifar100/pama_dkd/res32x4_mv2_spr.yaml \
-  --data-root ./data/cifar100 --output ./runs/cifar100_res32x4_mv2_pama_dkd_spr --gpu 0
-
-# CUB-200-2011, ResNet32x4 -> ShuffleNetV1, PAMA-KD
-python train.py --cfg configs/cub200/res32x4_shuv1/pama_kd.yaml \
-  --data-root ./data/CUB_200_2011 --output ./runs/cub200_res32x4_shuv1_pama_kd --gpu 0
-
-# Debug with fake data and a random teacher (one epoch)
-python train.py --cfg configs/cifar100/pama_dkd/res32x4_mv2.yaml \
-  --debug-fake-data --allow-random-teacher --epochs 1 --output ./runs/debug_fake
+python train.py \
+  --cfg configs/cifar100/pama_dkd/res32x4_mv2_spr.yaml \
+  --data-root ./data/cifar100 \
+  --output ./runs/cifar100_res32x4_mv2_rsm_dkd \
+  --gpu 0
 ```
 
-## Config Guide
+The current YAML directories and distiller identifiers retain the pre-publication `pama_*` names. For the final paper objective, use the RSM settings listed above and disable legacy auxiliary losses that do not appear in the paper objective.
 
-The method folder chooses the base objective; the leaf file chooses the teacher→student pair:
+Minimal fake-data smoke run:
+
+```bash
+python train.py \
+  --cfg configs/cifar100/pama_dkd/res32x4_mv2_spr.yaml \
+  --debug-fake-data \
+  --allow-random-teacher \
+  --epochs 1 \
+  --output ./runs/debug_fake
+```
+
+## Repository Layout
 
 ```text
-configs/<dataset>/<method>/<pair>.yaml   # method in {pama_kd, pama_dkd, pama_nkd}
+RSM-SDD/
+|-- configs/                 # Dataset, objective, and teacher-student settings
+|-- mdistiller/
+|   |-- dataset/             # CIFAR-100, ImageNet-1K, and CUB-200-2011 loaders
+|   |-- distillers/          # RSM and response-distillation objectives
+|   |-- engine/              # Configuration, training, and evaluation utilities
+|   |-- models/              # Teacher and student backbones
+|   `-- modules/             # HSC/SAB implementation and regional prediction
+|-- scripts/                 # Example launch scripts
+|-- tests/                   # Smoke and path tests
+|-- tools/                   # Installation, benchmarking, and analysis utilities
+|-- train.py                 # Main training entry point
+`-- requirements.txt
 ```
-
-Key `DISTILLER` / `PAMA` keys:
-
-- `CE_WEIGHT / KD_WEIGHT / SDD_WEIGHT / GAC_WEIGHT / LGC_WEIGHT` — loss weights. Note: DKD/NKD base losses are intrinsically much larger than KD, so `KD_WEIGHT`/`SDD_WEIGHT` usually need smaller values for those variants to keep CE from being drowned out.
-- `ALPHA / BETA / T / WARMUP` — DKD α/β, KD temperature, loss-weight warmup epochs.
-- `GAC_MODE` (`relation_graph` | `gram`), `GAC_TAU`.
-- `PAMA.M` (SDD scales), `NUM_AGENTS` (perfect square), `NUM_HEADS`, `MAX_SPATIAL_SIZE`.
-- **Main paper setting:** keep the teacher as a frozen stable target, set `PAMA.CSAM_AGENT_INIT: routing` for student-side SPR, keep `USE_RELIABILITY: true`, `USE_GAC: true`, and `USE_LGC: true`, and keep `PAMA.APF_GSMF: false`.
-- `PAMA.CSAM_AGENT_INIT: routing` swaps grid-pooled student agents for Semantic-Prototype Routing agents in CSAM.
-- `PAMA.APF_GSMF: true` turns on Global-Semantic Modulated Fusion in APF and is reserved for a separate GSMF ablation/extension, not the default main method.
-- Ablation switches: `USE_APF / USE_AMA / USE_GAC / USE_LGC / USE_RELIABILITY`.
-
-## Ablations & Analysis
-
-Component ablation configs (drop one module at a time), e.g.:
-
-```text
-configs/cifar100/pama_dkd/res32x4_res8x4_no_apf.yaml
-configs/cifar100/pama_dkd/res32x4_res8x4_no_ama.yaml
-configs/cifar100/pama_dkd/res32x4_res8x4_no_gac.yaml
-configs/cifar100/pama_dkd/res32x4_res8x4_no_lgc.yaml
-configs/cifar100/pama_dkd/res32x4_res8x4_no_reliability.yaml
-```
-
-`PAMASDD.forward_analysis()` and `tools/analyze_semantic_consistency.py` export semantic-consistency metrics (`local_global_teacher_cos`, `patch_variance`, `patch_entropy`, `agent_relation_mse`, ...) that support the semantic-fragmentation motivation.
-
-## Implementation Notes
-
-- **AMP stability.** Distillation losses (softmax/log/KL at temperature, and the DKD/NKD masked `log_softmax`) are computed in fp32 even under AMP — in fp16 a confident teacher probability can round to exactly 0 and make `kl_div` produce NaN. The heavy backbone forward still runs in fp16.
-- **DKD/NKD safety.** Those configs enable `GRAD_CLIP_NORM` so the large per-region DKD/NKD losses cannot push the fp16 attention into overflow.
-- **Memory.** On 16 GB GPUs the 224² CUB pipeline can exceed VRAM at batch 64 and spill into shared memory (which is very slow); reduce `SOLVER.BATCH_SIZE` (e.g. 32) if `peak_reserved` approaches the card limit.
-
-## Reported Results
-
-Numbers below are from the paper draft; values in parentheses are improvements over the corresponding scale-decoupled baseline (`SD-KD/DKD/NKD`).
-
-### CIFAR-100 Top-1
-
-| Teacher → Student | Best PAMA variant | Top-1 |
-|---|---:|---:|
-| ResNet32x4 → MobileNetV2 | PAMA-DKD | 71.10 (+1.02) |
-| WRN-40-2 → VGG8 | PAMA-KD | 75.22 (+0.78) |
-| ResNet50 → ShuffleNetV1 | PAMA-DKD | 79.70 (+1.59) |
-| ResNet32x4 → ShuffleNetV1 | PAMA-DKD | 79.18 (+1.88) |
-| VGG13 → MobileNetV2 | PAMA-DKD | 71.22 (+0.97) |
-
-### ImageNet-1K
-
-| Teacher → Student | Variant | Top-1 | Top-5 |
-|---|---|---:|---:|
-| ResNet34 → ResNet18 | PAMA-NKD | 72.57 (+0.24) | 91.42 (+0.11) |
-| ResNet50 → MobileNetV2 | PAMA-DKD | 73.60 (+0.52) | 91.83 (+0.74) |
-
-### CUB-200-2011 Top-1
-
-| Teacher → Student | Best PAMA variant | Top-1 |
-|---|---:|---:|
-| ResNet32x4 → MobileNetV2 | PAMA-NKD | 66.69 (+4.00) |
-| ResNet32x4 → ShuffleNetV1 | PAMA-DKD | 67.05 (+1.47) |
-| VGG13 → MobileNetV2 | PAMA-NKD | 69.09 (+4.46) |
-
-(See `README_zh.md` for the full per-config command reference and the mapping to the paper's tables 4.1–4.4.)
 
 ## Citation
 
+If this work is useful in your research, please cite:
+
 ```bibtex
-@misc{long2026pamasddpp,
-  title  = {PAMA-SDD++: Pyramid and Agent-Mediated Attention for Scale-Decoupled Knowledge Distillation},
+@misc{long2026rsm,
+  title  = {Reliability-Aware Semantic Mediation for Scale-Decoupled Knowledge Distillation},
   author = {Long, Shiyu},
   year   = {2026},
   note   = {Preprint}
 }
 ```
 
-## Acknowledgement
+## Acknowledgements
 
-MDistiller-compatible organization; builds on scale-decoupled distillation and Agent Attention (Han et al., ECCV 2024).
+This repository follows an MDistiller-style code organization and builds on Scale-Decoupled Distillation. SAB also adopts the general region-agent-region interaction principle from Agent Attention for its training-time semantic mediation role. Please cite the corresponding prior work when using those components.
