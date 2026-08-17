@@ -12,6 +12,7 @@ from torch.optim import SGD
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from mdistiller.dataset import build_loaders
+from mdistiller.dataset.loader_utils import solver_value
 from mdistiller.distillers import build_distiller
 from mdistiller.engine.cfg import load_config
 from mdistiller.engine.utils import load_state_safely
@@ -21,6 +22,15 @@ from mdistiller.models import build_model
 def synchronize(device):
     if device.type == "cuda":
         torch.cuda.synchronize()
+
+
+def solver_bool(cfg, primary: str, default=False, fallback: str | None = None):
+    solver = getattr(cfg, "SOLVER", None)
+    if solver is not None and hasattr(solver, primary):
+        return bool(getattr(solver, primary))
+    if fallback and solver is not None and hasattr(solver, fallback):
+        return bool(getattr(solver, fallback))
+    return bool(default)
 
 
 def parse_args():
@@ -45,9 +55,10 @@ def main():
 
     train_loader, _ = build_loaders(cfg, args.data_root, args.debug_fake_data)
     print(
-        f"[DATA] batches={len(train_loader)} batch_size={cfg.SOLVER.BATCH_SIZE} "
-        f"workers={cfg.SOLVER.NUM_WORKERS}"
+        f"[DATA] batches={len(train_loader)} batch_size={solver_value(cfg, 'BATCH_SIZE', '?')} "
+        f"workers={solver_value(cfg, 'NUM_WORKERS', '?')}"
     )
+    channels_last = solver_bool(cfg, "CHANNELS_LAST", default=False) and device.type == "cuda"
 
     student = build_model(
         cfg.MODEL.STUDENT,
@@ -63,15 +74,18 @@ def main():
         load_state_safely(teacher, cfg.MODEL.TEACHER_CKPT, strict=False)
 
     model = build_distiller(cfg.DISTILLER.TYPE, student, teacher, cfg).to(device)
+    if channels_last:
+        model = model.to(memory_format=torch.channels_last)
     optimizer = SGD(
         [p for p in model.parameters() if p.requires_grad],
         lr=cfg.SOLVER.LR,
         momentum=cfg.SOLVER.MOMENTUM,
         weight_decay=cfg.SOLVER.WEIGHT_DECAY,
+        nesterov=solver_bool(cfg, "NESTEROV", default=False),
     )
-    use_amp = bool(getattr(cfg.SOLVER, "USE_AMP", False))
+    use_amp = solver_bool(cfg, "USE_AMP", default=False, fallback="AMP")
     scaler = torch.amp.GradScaler("cuda", enabled=bool(use_amp and device.type == "cuda"))
-    print(f"[SOLVER] amp={use_amp}")
+    print(f"[SOLVER] amp={use_amp} channels_last={channels_last}")
 
     model.train()
     iterator = iter(train_loader)
@@ -85,6 +99,8 @@ def main():
 
         data_done = time.perf_counter()
         images = images.to(device, non_blocking=True)
+        if channels_last:
+            images = images.contiguous(memory_format=torch.channels_last)
         target = target.to(device, non_blocking=True)
         synchronize(device)
         h2d_done = time.perf_counter()

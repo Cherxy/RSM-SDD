@@ -1,0 +1,11 @@
+# Auto-generated = <base config> + APF_GSMF + CSAM_AGENT_INIT=routing (PAMA-SDD++ GSMF+SPR)
+_base_: ../base.yaml
+DISTILLER:
+  NAME: PAMA_DKD
+STUDENT:
+  NAME: resnet8x4
+TEACHER:
+  NAME: resnet32x4
+PAMA:
+  APF_GSMF: true
+  CSAM_AGENT_INIT: routing

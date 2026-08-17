@@ -1,4 +1,10 @@
 from __future__ import annotations
+# -----------------------------------------------------------------------------
+# PAMA-SDD++ supporting component -- Scale-Decoupled Distillation (SDD) local
+# logits (prior work, cited): pool features into multi-scale region grids
+# (M = {1,2,4}) and score each region with the model classifier. Consumed by
+# the reliability-aware local loss and LGC in pama_sdd.py.
+# -----------------------------------------------------------------------------
 import torch
 import torch.nn.functional as F
 

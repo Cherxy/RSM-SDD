@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-label="SPR routing network framework diagram">
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2477b7"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#159b9c"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7558c7"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#d47a24"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#637083"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#14304a" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="student-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8f7ff"/>
+      <stop offset="1" stop-color="#f9fdff"/>
+    </linearGradient>
+    <linearGradient id="spr-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fbfa"/>
+      <stop offset="1" stop-color="#fbfffe"/>
+    </linearGradient>
+    <linearGradient id="loss-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4efff"/>
+      <stop offset="1" stop-color="#fffafe"/>
+    </linearGradient>
+    <style>
+      .bg { fill:#fbfdff; }
+      .panel { fill:#ffffff; stroke:#d7e1ed; stroke-width:1.6; filter:url(#shadow); }
+      .student-panel { fill:url(#student-grad); stroke:#9ed2ef; stroke-width:1.8; filter:url(#shadow); }
+      .spr-panel { fill:url(#spr-grad); stroke:#87d6d2; stroke-width:1.8; filter:url(#shadow); }
+      .loss-panel { fill:url(#loss-grad); stroke:#baa8e8; stroke-width:1.8; filter:url(#shadow); }
+      .box { fill:#ffffff; stroke:#cbd7e6; stroke-width:1.4; filter:url(#shadow); }
+      .box-blue { fill:#eef8ff; stroke:#80bee9; stroke-width:1.5; }
+      .box-teal { fill:#ebfbfa; stroke:#72cbc7; stroke-width:1.5; }
+      .box-purple { fill:#f4efff; stroke:#ad99e3; stroke-width:1.5; }
+      .box-orange { fill:#fff3e5; stroke:#e4a160; stroke-width:1.5; }
+      .box-gray { fill:#f6f8fb; stroke:#bac6d4; stroke-width:1.5; }
+      .label { font-family:Arial, Helvetica, sans-serif; font-size:17px; font-weight:700; fill:#25364a; text-anchor:middle; }
+      .sub { font-family:Arial, Helvetica, sans-serif; font-size:13px; fill:#526276; text-anchor:middle; }
+      .tiny { font-family:Arial, Helvetica, sans-serif; font-size:11px; fill:#5c6a7b; text-anchor:middle; }
+      .code { font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:700; fill:#37485c; text-anchor:middle; }
+      .panel-label { font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:700; fill:#5b687a; letter-spacing:0; }
+      .arrow-blue { fill:none; stroke:#2477b7; stroke-width:2.5; marker-end:url(#arrow-blue); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-teal { fill:none; stroke:#159b9c; stroke-width:2.5; marker-end:url(#arrow-teal); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-purple { fill:none; stroke:#7558c7; stroke-width:2.5; marker-end:url(#arrow-purple); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-orange { fill:none; stroke:#d47a24; stroke-width:2.5; marker-end:url(#arrow-orange); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-gray { fill:none; stroke:#637083; stroke-width:2.2; marker-end:url(#arrow-gray); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:7 7; }
+      .n-blue { fill:#68b8ed; }
+      .n-teal { fill:#61c9c4; }
+      .n-purple { fill:#a58ee3; }
+      .n-orange { fill:#eda35d; }
+      .n-gray { fill:#aeb9c8; }
+      .heat1 { fill:#dff6f5; }
+      .heat2 { fill:#afe4e1; }
+      .heat3 { fill:#63c7c2; }
+      .heat4 { fill:#1b9c9e; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="1080"/>
+
+  <!-- Input and student feature preparation -->
+  <rect class="student-panel" x="60" y="118" width="420" height="780" rx="14"/>
+  <text class="panel-label" x="94" y="152">STUDENT FEATURE PREPARATION</text>
+
+  <rect class="box-blue" x="110" y="214" width="120" height="80" rx="8"/>
+  <text class="label" x="170" y="248">image</text>
+  <text class="sub" x="170" y="270">x</text>
+
+  <rect class="box-blue" x="298" y="198" width="130" height="84" rx="8"/>
+  <text class="label" x="363" y="232">student</text>
+  <text class="sub" x="363" y="254">backbone</text>
+
+  <rect class="box-blue" x="156" y="370" width="260" height="106" rx="8"/>
+  <text class="label" x="286" y="402">APF pyramid</text>
+  <text class="sub" x="286" y="424">multi-scale features</text>
+  <g transform="translate(225 444)">
+    <rect x="0" y="0" width="84" height="38" rx="4" fill="#dff2ff" stroke="#7bbdea" stroke-width="1.3"/>
+    <rect x="18" y="-16" width="84" height="38" rx="4" fill="#edf8ff" stroke="#8fc9ef" stroke-width="1.3"/>
+    <rect x="36" y="-32" width="84" height="38" rx="4" fill="#f8fdff" stroke="#a5d8f4" stroke-width="1.3"/>
+  </g>
+
+  <rect class="box-blue" x="156" y="560" width="260" height="122" rx="8"/>
+  <text class="label" x="286" y="592">flatten all levels</text>
+  <text class="sub" x="286" y="614">concat region tokens</text>
+  <g transform="translate(204 638)">
+    <circle r="5" class="n-blue"/>
+    <circle cx="22" r="5" class="n-blue"/>
+    <circle cx="44" r="5" class="n-teal"/>
+    <circle cx="66" r="5" class="n-teal"/>
+    <circle cx="88" r="5" class="n-purple"/>
+    <circle cx="110" r="5" class="n-purple"/>
+    <circle cx="132" r="5" class="n-orange"/>
+    <circle cx="154" r="5" class="n-orange"/>
+  </g>
+  <text class="code" x="286" y="668">pix_all: [B, N_all, C]</text>
+
+  <path class="arrow-blue" d="M230 254 H298"/>
+  <path class="arrow-blue" d="M363 282 C363 328 286 330 286 370"/>
+  <path class="arrow-blue" d="M286 476 V560"/>
+
+  <!-- SPR routing core -->
+  <rect class="spr-panel" x="548" y="84" width="780" height="824" rx="14"/>
+  <text class="panel-label" x="586" y="118">SPR ROUTING INSIDE CSAM</text>
+
+  <rect class="box-purple" x="596" y="188" width="170" height="96" rx="8"/>
+  <text class="label" x="681" y="220">learnable</text>
+  <text class="label" x="681" y="244">prototypes</text>
+  <text class="sub" x="681" y="266">route_q: [B,A,C]</text>
+  <g transform="translate(630 282)">
+    <circle r="7" class="n-purple"/>
+    <circle cx="34" r="7" class="n-purple"/>
+    <circle cx="68" r="7" class="n-purple"/>
+    <circle cx="102" r="7" class="n-purple"/>
+  </g>
+
+  <rect class="box-teal" x="596" y="372" width="170" height="96" rx="8"/>
+  <text class="label" x="681" y="404">token</text>
+  <text class="label" x="681" y="428">projection</text>
+  <text class="sub" x="681" y="450">route_k / route_v</text>
+
+  <rect class="box-teal" x="844" y="246" width="174" height="118" rx="8"/>
+  <text class="label" x="931" y="278">similarity</text>
+  <text class="sub" x="931" y="300">Q K^T / sqrt(C)</text>
+  <g transform="translate(887 320)">
+    <rect class="heat1" x="0" y="0" width="16" height="16"/>
+    <rect class="heat3" x="18" y="0" width="16" height="16"/>
+    <rect class="heat2" x="36" y="0" width="16" height="16"/>
+    <rect class="heat4" x="54" y="0" width="16" height="16"/>
+    <rect class="heat2" x="72" y="0" width="16" height="16"/>
+    <rect class="heat3" x="0" y="18" width="16" height="16"/>
+    <rect class="heat1" x="18" y="18" width="16" height="16"/>
+    <rect class="heat4" x="36" y="18" width="16" height="16"/>
+    <rect class="heat2" x="54" y="18" width="16" height="16"/>
+    <rect class="heat1" x="72" y="18" width="16" height="16"/>
+  </g>
+  <text class="tiny" x="931" y="354">routing logits [B,A,N_all]</text>
+
+  <rect class="box-teal" x="1088" y="246" width="174" height="118" rx="8"/>
+  <text class="label" x="1175" y="278">soft routing</text>
+  <text class="sub" x="1175" y="300">softmax over tokens</text>
+  <g transform="translate(1134 322)">
+    <path d="M0 20 C20 0 45 0 66 20 C84 38 104 38 126 20" fill="none" stroke="#159b9c" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="20" r="4" class="n-teal"/>
+    <circle cx="66" cy="20" r="4" class="n-teal"/>
+    <circle cx="126" cy="20" r="4" class="n-teal"/>
+  </g>
+  <text class="tiny" x="1175" y="354">R: [B,A,N_all]</text>
+
+  <rect class="box-teal" x="844" y="504" width="174" height="102" rx="8"/>
+  <text class="label" x="931" y="536">weighted sum</text>
+  <text class="sub" x="931" y="558">R V</text>
+  <text class="tiny" x="931" y="580">content-adaptive slots</text>
+
+  <rect class="box-teal" x="1088" y="504" width="174" height="102" rx="8"/>
+  <text class="label" x="1175" y="536">semantic</text>
+  <text class="label" x="1175" y="560">agents_s</text>
+  <g transform="translate(1126 584)">
+    <circle r="7" class="n-teal"/>
+    <circle cx="32" r="7" class="n-teal"/>
+    <circle cx="64" r="7" class="n-teal"/>
+    <circle cx="96" r="7" class="n-teal"/>
+  </g>
+  <text class="tiny" x="1175" y="624">[B,A,C]</text>
+
+  <rect class="box-gray" x="676" y="704" width="468" height="78" rx="8"/>
+  <text class="code" x="910" y="736">agents_s = agent_proj( softmax(QK^T/sqrt(C)) V ) + agent_pos</text>
+  <text class="tiny" x="910" y="760">SPR only constructs the student-side distillation mediator</text>
+
+  <path class="arrow-blue" d="M416 621 H548 C568 621 570 420 596 420"/>
+  <path class="arrow-purple" d="M766 236 H844"/>
+  <path class="arrow-teal" d="M766 420 C802 420 804 305 844 305"/>
+  <path class="arrow-teal" d="M1018 305 H1088"/>
+  <path class="arrow-teal" d="M1175 364 C1175 438 990 438 958 504"/>
+  <path class="arrow-teal" d="M1018 555 H1088"/>
+  <path class="arrow-teal" d="M1175 606 V704"/>
+
+  <!-- CSAM mediation and losses -->
+  <rect class="loss-panel" x="1390" y="118" width="340" height="780" rx="14"/>
+  <text class="panel-label" x="1426" y="152">AFTER SPR</text>
+
+  <rect class="box-teal" x="1442" y="222" width="236" height="92" rx="8"/>
+  <text class="label" x="1560" y="254">agent aggregation</text>
+  <text class="sub" x="1560" y="276">agents attend to pix_all</text>
+  <text class="tiny" x="1560" y="296">region to agent</text>
+
+  <rect class="box-teal" x="1442" y="384" width="236" height="92" rx="8"/>
+  <text class="label" x="1560" y="416">agent-to-pixel</text>
+  <text class="sub" x="1560" y="438">context returns to levels</text>
+  <text class="tiny" x="1560" y="458">enhanced pyramid</text>
+
+  <rect class="box-blue" x="1442" y="558" width="236" height="88" rx="8"/>
+  <text class="label" x="1560" y="590">local SDD</text>
+  <text class="sub" x="1560" y="612">SPP local logits</text>
+  <text class="tiny" x="1560" y="632">reliability-aware</text>
+
+  <rect class="box-purple" x="1442" y="720" width="236" height="88" rx="8"/>
+  <text class="label" x="1560" y="752">GAC</text>
+  <text class="sub" x="1560" y="774">agent relation graph</text>
+  <text class="tiny" x="1560" y="794">auxiliary constraint</text>
+
+  <path class="arrow-teal" d="M1262 555 C1344 555 1350 268 1442 268"/>
+  <path class="arrow-teal" d="M1560 314 V384"/>
+  <path class="arrow-blue" d="M1560 476 V558"/>
+  <path class="arrow-purple" d="M1262 555 C1364 555 1360 764 1442 764"/>
+
+  <!-- Teacher note -->
+  <rect class="box-orange" x="1398" y="930" width="324" height="74" rx="8"/>
+  <text class="label" x="1560" y="960">teacher stays frozen</text>
+  <text class="sub" x="1560" y="982">no teacher-side SPR / CSAM</text>
+</svg>

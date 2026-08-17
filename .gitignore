@@ -11,6 +11,7 @@ env/
 .env
 .idea/
 .vscode/
+.claude/
 
 # Large datasets, checkpoints, and experiment outputs
 data/

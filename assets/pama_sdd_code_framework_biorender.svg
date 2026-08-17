@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="PAMA-SDD code framework schematic">
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#596579"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b74c8"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#db7f2f"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d9a72"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7b61c7"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d84d57"/>
+    </marker>
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#16324a" flood-opacity="0.11"/>
+    </filter>
+    <linearGradient id="student-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8f3ff"/>
+      <stop offset="100%" stop-color="#f7fbff"/>
+    </linearGradient>
+    <linearGradient id="teacher-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1df"/>
+      <stop offset="100%" stop-color="#fffaf4"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #fbfdff; }
+      .zone { fill: #ffffff; stroke: #d8e1ec; stroke-width: 1.6; filter: url(#soft-shadow); }
+      .zone-soft { fill: #f6f9fd; stroke: #d8e1ec; stroke-width: 1.4; }
+      .student-zone { fill: url(#student-grad); stroke: #b9d7f4; stroke-width: 1.8; filter: url(#soft-shadow); }
+      .teacher-zone { fill: url(#teacher-grad); stroke: #f1c79a; stroke-width: 1.8; filter: url(#soft-shadow); }
+      .box { fill: #ffffff; stroke: #c8d4e3; stroke-width: 1.5; filter: url(#soft-shadow); }
+      .box-blue { fill: #eff7ff; stroke: #8cbfec; stroke-width: 1.7; }
+      .box-green { fill: #ebf8f2; stroke: #86cdae; stroke-width: 1.7; }
+      .box-cyan { fill: #eaf8fb; stroke: #7dc7d8; stroke-width: 1.7; }
+      .box-orange { fill: #fff3e6; stroke: #f0b36f; stroke-width: 1.7; }
+      .box-purple { fill: #f4efff; stroke: #b7a2e9; stroke-width: 1.7; }
+      .box-red { fill: #fff0f2; stroke: #e8929a; stroke-width: 1.7; }
+      .pill { fill: #ffffff; stroke-width: 1.4; }
+      .label { font-family: "Arial", "Helvetica", sans-serif; font-size: 20px; fill: #243247; font-weight: 700; text-anchor: middle; }
+      .small { font-family: "Arial", "Helvetica", sans-serif; font-size: 15px; fill: #4f5d73; text-anchor: middle; }
+      .tiny { font-family: "Arial", "Helvetica", sans-serif; font-size: 13px; fill: #596579; text-anchor: middle; }
+      .zone-label { font-family: "Arial", "Helvetica", sans-serif; font-size: 16px; fill: #67758a; font-weight: 700; letter-spacing: 0.6px; text-anchor: start; }
+      .arrow-gray { fill: none; stroke: #596579; stroke-width: 2.2; marker-end: url(#arrow-gray); stroke-linecap: round; stroke-linejoin: round; }
+      .arrow-blue { fill: none; stroke: #2b74c8; stroke-width: 2.7; marker-end: url(#arrow-blue); stroke-linecap: round; stroke-linejoin: round; }
+      .arrow-orange { fill: none; stroke: #db7f2f; stroke-width: 2.7; marker-end: url(#arrow-orange); stroke-linecap: round; stroke-linejoin: round; }
+      .arrow-green { fill: none; stroke: #2d9a72; stroke-width: 2.7; marker-end: url(#arrow-green); stroke-linecap: round; stroke-linejoin: round; }
+      .arrow-purple { fill: none; stroke: #7b61c7; stroke-width: 2.7; marker-end: url(#arrow-purple); stroke-linecap: round; stroke-linejoin: round; }
+      .arrow-red { fill: none; stroke: #d84d57; stroke-width: 3; marker-end: url(#arrow-red); stroke-linecap: round; stroke-linejoin: round; }
+      .dash { stroke-dasharray: 7 7; }
+      .icon-stroke { fill: none; stroke: #596579; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-fill-blue { fill: #6eb3ef; }
+      .icon-fill-orange { fill: #f2a65a; }
+      .icon-fill-green { fill: #73c69a; }
+      .icon-fill-purple { fill: #a58add; }
+      .icon-fill-cyan { fill: #70c7d6; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="900"/>
+
+  <!-- Left orchestration inputs -->
+  <rect class="zone" x="42" y="92" width="300" height="708" rx="24"/>
+  <text class="zone-label" x="72" y="132">CODE INPUTS</text>
+
+  <rect class="box" x="78" y="158" width="228" height="92" rx="16"/>
+  <path class="icon-stroke" d="M112 181 h42 l18 18 v29 h-60 z"/>
+  <path class="icon-stroke" d="M154 181 v18 h18"/>
+  <path class="icon-stroke" d="M122 208 h38 M122 222 h30"/>
+  <text class="label" x="222" y="199">YAML</text>
+  <text class="small" x="222" y="222">Configs</text>
+
+  <rect class="box" x="78" y="282" width="228" height="92" rx="16"/>
+  <rect x="112" y="309" width="54" height="38" rx="7" fill="#e8f3ff" stroke="#7fb6e8" stroke-width="2"/>
+  <circle cx="128" cy="328" r="7" class="icon-fill-blue"/>
+  <path class="icon-stroke" d="M142 342 l11 -12 l12 12"/>
+  <text class="label" x="226" y="322">Dataset</text>
+  <text class="small" x="226" y="345">Loaders</text>
+
+  <rect class="box" x="78" y="406" width="228" height="92" rx="16"/>
+  <path class="icon-stroke" d="M128 452 v-16 a17 17 0 0 1 34 0 v16"/>
+  <rect x="116" y="447" width="58" height="32" rx="8" fill="#fff3e6" stroke="#e6a45f" stroke-width="2"/>
+  <circle cx="145" cy="463" r="4" class="icon-fill-orange"/>
+  <text class="label" x="226" y="445">Teacher</text>
+  <text class="small" x="226" y="468">Checkpoint</text>
+
+  <rect class="box-blue" x="78" y="560" width="228" height="116" rx="18"/>
+  <rect x="108" y="594" width="44" height="36" rx="6" fill="#ffffff" stroke="#6caee6" stroke-width="2"/>
+  <rect x="118" y="604" width="44" height="36" rx="6" fill="#dff0ff" stroke="#6caee6" stroke-width="2"/>
+  <rect x="128" y="614" width="44" height="36" rx="6" fill="#bfe0fb" stroke="#6caee6" stroke-width="2"/>
+  <text class="label" x="228" y="609">Input Image</text>
+  <text class="small" x="228" y="634">Batch</text>
+
+  <rect class="box-purple" x="94" y="708" width="196" height="62" rx="18"/>
+  <text class="label" x="192" y="746">train.py</text>
+
+  <path class="arrow-gray" d="M192 250 V282"/>
+  <path class="arrow-gray" d="M192 374 V406"/>
+  <path class="arrow-gray" d="M192 498 V560"/>
+  <path class="arrow-gray" d="M192 676 V708"/>
+
+  <!-- Main model zones -->
+  <rect class="student-zone" x="405" y="82" width="800" height="330" rx="28"/>
+  <text class="zone-label" x="435" y="122">STUDENT PATH</text>
+
+  <rect class="teacher-zone" x="405" y="488" width="800" height="300" rx="28"/>
+  <text class="zone-label" x="435" y="528">FROZEN TEACHER PATH</text>
+  <path class="icon-stroke" d="M1136 520 v-12 a13 13 0 0 1 26 0 v12"/>
+  <rect x="1128" y="518" width="42" height="28" rx="7" fill="#fffaf4" stroke="#d89348" stroke-width="2"/>
+  <text class="tiny" x="1149" y="565">no gradient</text>
+
+  <!-- Student modules -->
+  <rect class="box-blue" x="438" y="170" width="145" height="118" rx="18"/>
+  <circle cx="510" cy="204" r="19" fill="#dff0ff" stroke="#6caee6" stroke-width="2"/>
+  <path class="icon-stroke" d="M495 204 h30 M510 189 v30"/>
+  <text class="label" x="510" y="244">Backbone</text>
+  <text class="small" x="510" y="267">Features</text>
+
+  <rect class="box-green" x="630" y="170" width="145" height="118" rx="18"/>
+  <path d="M672 250 h60 v-54 h-60 z" fill="#ffffff" stroke="#72bd97" stroke-width="2"/>
+  <path d="M681 238 h42 M681 224 h32 M681 210 h22" stroke="#5bb184" stroke-width="6" stroke-linecap="round"/>
+  <text class="label" x="702" y="206">APF</text>
+  <text class="small" x="702" y="267">Pyramid</text>
+
+  <rect class="box-cyan" x="822" y="170" width="145" height="118" rx="18"/>
+  <circle cx="878" cy="216" r="8" class="icon-fill-cyan"/>
+  <circle cx="904" cy="202" r="8" class="icon-fill-cyan"/>
+  <circle cx="904" cy="230" r="8" class="icon-fill-cyan"/>
+  <circle cx="930" cy="216" r="8" class="icon-fill-cyan"/>
+  <path class="icon-stroke" d="M886 216 h36 M900 207 l-16 9 l16 9 M912 207 l16 9 l-16 9"/>
+  <text class="label" x="895" y="254">CSAM</text>
+  <text class="small" x="895" y="276">Agents</text>
+
+  <rect class="box-blue" x="1014" y="170" width="145" height="118" rx="18"/>
+  <path d="M1057 204 h58 v48 h-58 z" fill="#ffffff" stroke="#6caee6" stroke-width="2"/>
+  <path d="M1063 215 h46 M1063 228 h46 M1063 241 h46" stroke="#9bc9ef" stroke-width="5" stroke-linecap="round"/>
+  <text class="label" x="1087" y="260">Enhanced</text>
+  <text class="small" x="1087" y="281">Features</text>
+
+  <rect class="box-green" x="822" y="326" width="337" height="62" rx="18"/>
+  <g transform="translate(850 342)">
+    <rect x="0" y="0" width="40" height="32" rx="5" fill="#ffffff" stroke="#72bd97" stroke-width="2"/>
+    <path d="M13 0 v32 M27 0 v32 M0 11 h40 M0 22 h40" stroke="#9ad5b6" stroke-width="1.6"/>
+  </g>
+  <text class="label" x="1002" y="366">SDD Local Logits</text>
+
+  <path class="arrow-blue" d="M583 229 H630"/>
+  <path class="arrow-green" d="M775 229 H822"/>
+  <path class="arrow-blue" d="M967 229 H1014"/>
+  <path class="arrow-green" d="M1087 288 V326"/>
+
+  <!-- Teacher modules -->
+  <rect class="box-orange" x="438" y="590" width="165" height="108" rx="18"/>
+  <circle cx="520" cy="623" r="18" fill="#fff3e6" stroke="#e6a45f" stroke-width="2"/>
+  <path class="icon-stroke" d="M506 623 h28 M520 609 v28"/>
+  <text class="label" x="520" y="661">Teacher</text>
+  <text class="small" x="520" y="684">Features</text>
+
+  <rect class="box-orange" x="676" y="590" width="205" height="108" rx="18"/>
+  <path d="M730 621 c20 -16 47 -16 67 0 c-8 22 -58 22 -67 0 z" fill="#ffe0b9" stroke="#e5a15c" stroke-width="2"/>
+  <circle cx="764" cy="624" r="8" fill="#f2a65a"/>
+  <text class="label" x="779" y="659">Stable Teacher</text>
+  <text class="small" x="779" y="682">Targets</text>
+
+  <path class="arrow-orange" d="M603 644 H676"/>
+
+  <rect class="pill" x="940" y="536" width="186" height="50" rx="25" stroke="#7b61c7"/>
+  <text class="small" x="1033" y="567">Global Logits</text>
+  <rect class="pill" x="940" y="620" width="186" height="50" rx="25" stroke="#2d9a72"/>
+  <text class="small" x="1033" y="651">Local Logits</text>
+  <rect class="pill" x="940" y="704" width="186" height="50" rx="25" stroke="#3caec0"/>
+  <text class="small" x="1033" y="735">Pooled Agent Tokens</text>
+
+  <path class="arrow-orange" d="M881 644 C906 644 914 561 940 561"/>
+  <path class="arrow-orange" d="M881 644 H940"/>
+  <path class="arrow-orange" d="M881 644 C906 644 914 729 940 729"/>
+
+  <!-- Orchestration arrows from train.py / input batch -->
+  <path class="arrow-gray" d="M290 739 C340 739 360 229 438 229"/>
+  <path class="arrow-gray" d="M290 739 C340 739 360 644 438 644"/>
+  <path class="arrow-blue" d="M306 618 C372 618 372 252 438 252"/>
+  <path class="arrow-orange" d="M306 618 C372 618 372 620 438 620"/>
+
+  <!-- Loss assembly panel -->
+  <rect class="zone" x="1256" y="128" width="292" height="626" rx="26"/>
+  <text class="zone-label" x="1288" y="168">LOSS AND OUTPUTS</text>
+
+  <rect class="box-red" x="1324" y="324" width="152" height="82" rx="22"/>
+  <text class="label" x="1400" y="357">Total</text>
+  <text class="label" x="1400" y="382">Loss</text>
+
+  <rect class="pill" x="1288" y="214" width="132" height="44" rx="22" stroke="#8897aa"/>
+  <text class="small" x="1354" y="242">CE Loss</text>
+  <rect class="pill" x="1430" y="214" width="90" height="44" rx="22" stroke="#8897aa"/>
+  <text class="small" x="1475" y="242">Logits</text>
+  <path class="arrow-gray" d="M1370 258 C1378 284 1388 300 1394 324"/>
+
+  <rect class="pill" x="1288" y="276" width="232" height="44" rx="22" stroke="#7b61c7"/>
+  <text class="small" x="1404" y="304">Global KD / DKD / NKD</text>
+  <path class="arrow-purple" d="M1404 320 V324"/>
+
+  <rect class="pill" x="1288" y="430" width="232" height="44" rx="22" stroke="#2d9a72"/>
+  <text class="small" x="1404" y="458">Reliability-aware Local SDD</text>
+  <path class="arrow-green" d="M1404 430 V406"/>
+
+  <rect class="pill" x="1288" y="492" width="232" height="44" rx="22" stroke="#3caec0"/>
+  <text class="small" x="1404" y="520">GAC + LGC</text>
+  <path class="arrow-blue" d="M1404 492 C1404 462 1404 436 1404 406"/>
+
+  <rect class="box" x="1290" y="600" width="104" height="72" rx="18"/>
+  <path class="icon-stroke" d="M1320 635 l14 14 l28 -33"/>
+  <text class="small" x="1342" y="656">Metrics</text>
+
+  <rect class="box" x="1414" y="600" width="104" height="72" rx="18"/>
+  <path class="icon-stroke" d="M1445 621 h42 v34 h-42 z M1454 621 v12 h24 v-12"/>
+  <text class="small" x="1466" y="656">Checkpoints</text>
+
+  <path class="arrow-gray" d="M1400 406 V574"/>
+  <path class="arrow-gray" d="M1400 574 C1380 580 1365 589 1350 600"/>
+  <path class="arrow-gray" d="M1400 574 C1422 580 1442 589 1458 600"/>
+
+  <!-- Cross-network distillation links -->
+  <path class="arrow-purple" d="M1159 229 C1218 229 1232 561 940 561"/>
+  <text class="tiny" x="1198" y="360" fill="#7b61c7">global distillation</text>
+
+  <path class="arrow-green" d="M1159 357 C1216 386 1214 646 1126 646"/>
+  <text class="tiny" x="1192" y="492" fill="#2d9a72">local SDD</text>
+
+  <path class="arrow-blue" d="M895 288 C895 438 1052 438 1033 704"/>
+  <text class="tiny" x="996" y="438" fill="#2b74c8">agent relation graph</text>
+
+  <path class="arrow-blue dash" d="M990 388 C1120 450 1140 520 1033 536"/>
+  <text class="tiny" x="1110" y="470" fill="#2b74c8">local-global coherence</text>
+
+  <!-- Backprop update arrow -->
+  <path class="arrow-red" d="M1324 365 C1210 126 710 103 510 170"/>
+  <text class="tiny" x="1012" y="112" fill="#d84d57">update student only</text>
+
+  <!-- Small legend -->
+  <rect class="zone-soft" x="423" y="808" width="764" height="54" rx="18"/>
+  <circle cx="455" cy="835" r="8" fill="#6eb3ef"/>
+  <text class="tiny" x="518" y="840">student modules</text>
+  <circle cx="638" cy="835" r="8" fill="#f2a65a"/>
+  <text class="tiny" x="708" y="840">frozen teacher targets</text>
+  <circle cx="860" cy="835" r="8" fill="#73c69a"/>
+  <text class="tiny" x="942" y="840">local SDD signals</text>
+  <circle cx="1080" cy="835" r="8" fill="#a58add"/>
+  <text class="tiny" x="1132" y="840">KD losses</text>
+</svg>

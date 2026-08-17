@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1040" viewBox="0 0 1800 1040" role="img" aria-label="Collaboration flow of CSAM SPR local SDD reliability and GAC">
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2477b7"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#d47a24"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#159b9c"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7558c7"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#637083"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#14304a" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="student-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8f7ff"/>
+      <stop offset="1" stop-color="#f9fdff"/>
+    </linearGradient>
+    <linearGradient id="teacher-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff1df"/>
+      <stop offset="1" stop-color="#fffdf9"/>
+    </linearGradient>
+    <linearGradient id="loss-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3edff"/>
+      <stop offset="1" stop-color="#fffafe"/>
+    </linearGradient>
+    <linearGradient id="teal-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fbfa"/>
+      <stop offset="1" stop-color="#fbfffe"/>
+    </linearGradient>
+    <style>
+      .bg { fill:#fbfdff; }
+      .panel { fill:#ffffff; stroke:#d7e1ed; stroke-width:1.6; filter:url(#shadow); }
+      .student { fill:url(#student-grad); stroke:#9ed2ef; stroke-width:1.8; filter:url(#shadow); }
+      .teacher { fill:url(#teacher-grad); stroke:#e8bc82; stroke-width:1.8; filter:url(#shadow); }
+      .loss { fill:url(#loss-grad); stroke:#baa8e8; stroke-width:1.8; filter:url(#shadow); }
+      .teal { fill:url(#teal-grad); stroke:#87d6d2; stroke-width:1.8; filter:url(#shadow); }
+      .box { fill:#ffffff; stroke:#cbd7e6; stroke-width:1.4; filter:url(#shadow); }
+      .box-blue { fill:#eef8ff; stroke:#80bee9; stroke-width:1.5; }
+      .box-orange { fill:#fff3e5; stroke:#e4a160; stroke-width:1.5; }
+      .box-purple { fill:#f4efff; stroke:#ad99e3; stroke-width:1.5; }
+      .box-teal { fill:#ebfbfa; stroke:#72cbc7; stroke-width:1.5; }
+      .box-gray { fill:#f6f8fb; stroke:#bac6d4; stroke-width:1.5; }
+      .label { font-family:Arial, Helvetica, sans-serif; font-size:17px; font-weight:700; fill:#25364a; text-anchor:middle; }
+      .sub { font-family:Arial, Helvetica, sans-serif; font-size:13px; fill:#526276; text-anchor:middle; }
+      .tiny { font-family:Arial, Helvetica, sans-serif; font-size:11px; fill:#5c6a7b; text-anchor:middle; }
+      .code { font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:700; fill:#37485c; text-anchor:middle; }
+      .panel-label { font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:700; fill:#5b687a; letter-spacing:0; }
+      .arrow-blue { fill:none; stroke:#2477b7; stroke-width:2.5; marker-end:url(#arrow-blue); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-orange { fill:none; stroke:#d47a24; stroke-width:2.5; marker-end:url(#arrow-orange); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-teal { fill:none; stroke:#159b9c; stroke-width:2.5; marker-end:url(#arrow-teal); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-purple { fill:none; stroke:#7558c7; stroke-width:2.5; marker-end:url(#arrow-purple); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-gray { fill:none; stroke:#637083; stroke-width:2.2; marker-end:url(#arrow-gray); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:7 7; }
+      .n-blue { fill:#68b8ed; }
+      .n-orange { fill:#eda35d; }
+      .n-purple { fill:#a58ee3; }
+      .n-teal { fill:#61c9c4; }
+      .n-gray { fill:#aeb9c8; }
+      .heat-low { fill:#d8eff1; }
+      .heat-mid { fill:#8dd8d6; }
+      .heat-high { fill:#1b9c9e; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="1040"/>
+
+  <rect class="panel" x="48" y="118" width="170" height="740" rx="12"/>
+  <text class="panel-label" x="76" y="152">BATCH INPUT</text>
+  <rect class="box-blue" x="78" y="232" width="110" height="80" rx="8"/>
+  <text class="label" x="133" y="266">image</text>
+  <text class="sub" x="133" y="288">x</text>
+  <rect class="box-gray" x="78" y="664" width="110" height="80" rx="8"/>
+  <text class="label" x="133" y="698">label</text>
+  <text class="sub" x="133" y="720">y</text>
+
+  <!-- Student path -->
+  <rect class="student" x="258" y="72" width="472" height="390" rx="14"/>
+  <text class="panel-label" x="294" y="106">STUDENT PATH</text>
+  <rect class="box-blue" x="296" y="160" width="140" height="78" rx="8"/>
+  <text class="label" x="366" y="192">backbone</text>
+  <text class="sub" x="366" y="214">features_s</text>
+  <rect class="box-blue" x="482" y="138" width="150" height="70" rx="8"/>
+  <text class="label" x="557" y="168">APF</text>
+  <text class="sub" x="557" y="190">pyramid_s</text>
+  <rect class="box-teal" x="482" y="250" width="150" height="82" rx="8"/>
+  <text class="label" x="557" y="282">CSAM-SPR</text>
+  <text class="sub" x="557" y="306">enhance + agents_s</text>
+  <rect class="box-blue" x="340" y="370" width="250" height="62" rx="8"/>
+  <text class="label" x="465" y="396">SPP + student classifier</text>
+  <text class="sub" x="465" y="416">local_s [B,K,N]</text>
+  <path class="arrow-blue" d="M188 272 H296"/>
+  <path class="arrow-blue" d="M436 199 H482"/>
+  <path class="arrow-blue" d="M557 208 V250"/>
+  <path class="arrow-teal" d="M557 332 C557 352 512 352 492 370"/>
+
+  <!-- Teacher path -->
+  <rect class="teacher" x="258" y="544" width="472" height="390" rx="14"/>
+  <text class="panel-label" x="294" y="578">FROZEN TEACHER PATH</text>
+  <rect class="box-orange" x="296" y="632" width="140" height="78" rx="8"/>
+  <text class="label" x="366" y="664">teacher</text>
+  <text class="sub" x="366" y="686">eval, no grad</text>
+  <rect class="box-orange" x="482" y="610" width="150" height="70" rx="8"/>
+  <text class="label" x="557" y="640">feat_t[-1]</text>
+  <text class="sub" x="557" y="662">stable feature</text>
+  <rect class="box-orange" x="482" y="722" width="150" height="70" rx="8"/>
+  <text class="label" x="557" y="752">SPP</text>
+  <text class="sub" x="557" y="774">same M</text>
+  <rect class="box-orange" x="340" y="842" width="250" height="62" rx="8"/>
+  <text class="label" x="465" y="868">teacher classifier</text>
+  <text class="sub" x="465" y="888">local_t [B,K,N]</text>
+  <path class="arrow-orange" d="M188 272 C240 272 224 671 296 671"/>
+  <path class="arrow-orange" d="M436 671 H482"/>
+  <path class="arrow-orange" d="M557 680 V722"/>
+  <path class="arrow-orange" d="M557 792 C557 816 514 816 492 842"/>
+
+  <!-- Middle collaboration panel -->
+  <rect class="loss" x="782" y="72" width="604" height="862" rx="14"/>
+  <text class="panel-label" x="820" y="106">LOCAL SDD DECOUPLING + RELIABILITY</text>
+
+  <rect class="box-purple" x="828" y="156" width="208" height="74" rx="8"/>
+  <text class="label" x="932" y="186">region loss</text>
+  <text class="sub" x="932" y="208">KD/DKD/NKD per region</text>
+  <rect class="box-purple" x="1128" y="156" width="208" height="74" rx="8"/>
+  <text class="label" x="1232" y="186">loss_vec</text>
+  <text class="sub" x="1232" y="208">[N*B]</text>
+
+  <rect class="box-orange" x="828" y="286" width="208" height="88" rx="8"/>
+  <text class="label" x="932" y="318">teacher correctness</text>
+  <text class="sub" x="932" y="340">local_correct</text>
+  <text class="tiny" x="932" y="358">compare with region 0</text>
+  <rect class="box-purple" x="1128" y="286" width="208" height="88" rx="8"/>
+  <text class="label" x="1232" y="318">SDD weight</text>
+  <text class="sub" x="1232" y="340">consistent = 1.0</text>
+  <text class="sub" x="1232" y="358">complement = 2.0</text>
+
+  <rect class="box-orange" x="828" y="430" width="208" height="88" rx="8"/>
+  <text class="label" x="932" y="462">teacher confidence</text>
+  <text class="sub" x="932" y="484">max softmax(local_t/T)</text>
+  <text class="tiny" x="932" y="502">no gradient</text>
+  <rect class="box-teal" x="1128" y="430" width="208" height="88" rx="8"/>
+  <text class="label" x="1232" y="462">reliability</text>
+  <text class="sub" x="1232" y="484">floor to 1</text>
+  <text class="tiny" x="1232" y="502">uncertain regions down-weighted</text>
+
+  <rect class="box-purple" x="930" y="584" width="308" height="92" rx="8"/>
+  <text class="label" x="1084" y="616">final region weight</text>
+  <text class="sub" x="1084" y="638">SDD weight x reliability</text>
+  <text class="tiny" x="1084" y="658">controls how much each local region teaches</text>
+
+  <rect class="box-purple" x="930" y="738" width="308" height="82" rx="8"/>
+  <text class="label" x="1084" y="770">loss_local</text>
+  <text class="sub" x="1084" y="792">mean(loss_vec x final weight)</text>
+
+  <rect class="box-gray" x="842" y="840" width="484" height="58" rx="8"/>
+  <text class="code" x="1084" y="866">high-confidence complementary region gets the strongest local signal</text>
+  <text class="tiny" x="1084" y="886">low-confidence regions are not removed, only softened by reliability floor</text>
+
+  <path class="arrow-purple" d="M590 401 C690 401 716 193 828 193"/>
+  <path class="arrow-orange" d="M590 873 C700 873 714 193 828 193"/>
+  <path class="arrow-purple" d="M1036 193 H1128"/>
+  <path class="arrow-orange" d="M590 873 C706 873 704 330 828 330"/>
+  <path class="arrow-purple" d="M1036 330 H1128"/>
+  <path class="arrow-orange" d="M590 873 C706 873 704 474 828 474"/>
+  <path class="arrow-teal" d="M1036 474 H1128"/>
+  <path class="arrow-purple" d="M1232 374 V430"/>
+  <path class="arrow-purple" d="M1232 518 C1232 560 1178 560 1148 584"/>
+  <path class="arrow-purple" d="M1084 676 V738"/>
+  <path class="arrow-gray" d="M188 704 C532 704 698 780 930 780"/>
+
+  <!-- Side branch GAC -->
+  <rect class="teal" x="1432" y="128" width="304" height="500" rx="14"/>
+  <text class="panel-label" x="1464" y="162">RELATION TARGET GAC</text>
+  <rect class="box-teal" x="1472" y="210" width="224" height="72" rx="8"/>
+  <text class="label" x="1584" y="238">agents_s</text>
+  <text class="sub" x="1584" y="260">from CSAM-SPR</text>
+  <rect class="box-orange" x="1472" y="330" width="224" height="72" rx="8"/>
+  <text class="label" x="1584" y="358">agents_t</text>
+  <text class="sub" x="1584" y="380">teacher pool</text>
+  <rect class="box-teal" x="1472" y="452" width="224" height="76" rx="8"/>
+  <text class="label" x="1584" y="480">relation graphs</text>
+  <text class="sub" x="1584" y="502">rel = normalize(a) normalize(a)^T</text>
+  <rect class="box-teal" x="1472" y="566" width="224" height="72" rx="8"/>
+  <text class="label" x="1584" y="594">loss_gac</text>
+  <text class="sub" x="1584" y="616">KL + MSE auxiliary</text>
+  <path class="arrow-teal" d="M632 291 C1012 291 1184 246 1472 246"/>
+  <path class="arrow-orange" d="M632 645 C976 645 1160 366 1472 366"/>
+  <path class="arrow-teal" d="M1584 282 V330"/>
+  <path class="arrow-teal" d="M1584 402 V452"/>
+  <path class="arrow-teal" d="M1584 528 V566"/>
+
+  <!-- Final total loss -->
+  <rect class="panel" x="1458" y="742" width="250" height="142" rx="12"/>
+  <text class="label" x="1583" y="780">total training loss</text>
+  <text class="sub" x="1583" y="810">CE + global KD</text>
+  <text class="sub" x="1583" y="832">+ local SDD</text>
+  <text class="sub" x="1583" y="854">+ GAC + LGC</text>
+  <path class="arrow-purple" d="M1238 779 C1336 779 1370 813 1458 813"/>
+  <path class="arrow-teal" d="M1584 638 V742"/>
+
+  <!-- Mini example table -->
+  <rect class="panel" x="1426" y="668" width="318" height="44" rx="8"/>
+  <text class="code" x="1585" y="695">final_weight = SDD_weight x reliability</text>
+</svg>

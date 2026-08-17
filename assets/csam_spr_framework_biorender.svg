@@ -1,0 +1,300 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100" role="img" aria-label="CSAM with SPR network framework schematic">
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2477b7"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#169c9d"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#d57a24"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7b5ac8"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#637083"/>
+    </marker>
+    <filter id="soft-shadow" x="-12%" y="-16%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#16324a" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="student-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8f7ff"/>
+      <stop offset="1" stop-color="#f8fdff"/>
+    </linearGradient>
+    <linearGradient id="csam-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e5fbfa"/>
+      <stop offset="1" stop-color="#f9fffe"/>
+    </linearGradient>
+    <linearGradient id="teacher-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff2e3"/>
+      <stop offset="1" stop-color="#fffdf9"/>
+    </linearGradient>
+    <linearGradient id="loss-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2edff"/>
+      <stop offset="1" stop-color="#fffbff"/>
+    </linearGradient>
+    <style>
+      .bg { fill:#fbfdff; }
+      .lane { fill:#ffffff; stroke:#d6e1ed; stroke-width:1.6; filter:url(#soft-shadow); }
+      .student-lane { fill:url(#student-grad); stroke:#a3d5f1; stroke-width:1.8; filter:url(#soft-shadow); }
+      .csam-lane { fill:url(#csam-grad); stroke:#88d6d3; stroke-width:1.8; filter:url(#soft-shadow); }
+      .teacher-lane { fill:url(#teacher-grad); stroke:#e7bd82; stroke-width:1.8; filter:url(#soft-shadow); }
+      .loss-lane { fill:url(#loss-grad); stroke:#b9a6e8; stroke-width:1.8; filter:url(#soft-shadow); }
+      .box { fill:#ffffff; stroke:#cad7e6; stroke-width:1.4; filter:url(#soft-shadow); }
+      .box-blue { fill:#eff8ff; stroke:#83bfeb; stroke-width:1.5; }
+      .box-teal { fill:#ebfbfa; stroke:#6fcac6; stroke-width:1.5; }
+      .box-orange { fill:#fff4e6; stroke:#e7a35c; stroke-width:1.5; }
+      .box-purple { fill:#f4efff; stroke:#ac98e5; stroke-width:1.5; }
+      .box-gray { fill:#f5f7fa; stroke:#b9c5d3; stroke-width:1.5; }
+      .small-box { fill:#ffffff; stroke:#cbd7e5; stroke-width:1.2; }
+      .label { font-family:Arial, Helvetica, sans-serif; font-size:17px; font-weight:700; fill:#26364a; text-anchor:middle; }
+      .sub { font-family:Arial, Helvetica, sans-serif; font-size:13px; fill:#526276; text-anchor:middle; }
+      .tiny { font-family:Arial, Helvetica, sans-serif; font-size:11px; fill:#5b697b; text-anchor:middle; }
+      .lane-label { font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:700; fill:#5b697b; letter-spacing:0; }
+      .code { font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:700; fill:#36475c; text-anchor:middle; }
+      .arrow-blue { fill:none; stroke:#2477b7; stroke-width:2.5; marker-end:url(#arrow-blue); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-teal { fill:none; stroke:#169c9d; stroke-width:2.5; marker-end:url(#arrow-teal); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-orange { fill:none; stroke:#d57a24; stroke-width:2.5; marker-end:url(#arrow-orange); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-purple { fill:none; stroke:#7b5ac8; stroke-width:2.5; marker-end:url(#arrow-purple); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-gray { fill:none; stroke:#637083; stroke-width:2.2; marker-end:url(#arrow-gray); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:7 7; }
+      .thin { stroke-width:1.6; }
+      .icon { fill:none; stroke:#637083; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+      .n-blue { fill:#66b8ed; }
+      .n-teal { fill:#61c9c4; }
+      .n-orange { fill:#eda35d; }
+      .n-purple { fill:#a690e4; }
+      .n-gray { fill:#aeb9c7; }
+      .matrix-cell { fill:#dff6f5; stroke:#8bdad5; stroke-width:0.8; }
+      .heat-1 { fill:#c8efed; }
+      .heat-2 { fill:#90dad5; }
+      .heat-3 { fill:#45bdb7; }
+      .heat-4 { fill:#168f91; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="1100"/>
+
+  <!-- Input -->
+  <rect class="lane" x="52" y="154" width="178" height="770" rx="12"/>
+  <text class="lane-label" x="78" y="188">INPUT</text>
+  <rect class="box-blue" x="82" y="235" width="118" height="94" rx="8"/>
+  <rect x="110" y="260" width="44" height="34" rx="5" fill="#dff2ff" stroke="#70b4e6" stroke-width="2"/>
+  <path class="icon" d="M160 263 h24 M160 277 h20 M160 291 h28"/>
+  <text class="label" x="141" y="352">image</text>
+  <text class="sub" x="141" y="374">x</text>
+
+  <!-- Student branch -->
+  <rect class="student-lane" x="270" y="88" width="1352" height="436" rx="14"/>
+  <text class="lane-label" x="306" y="122">TRAINABLE STUDENT PATH</text>
+
+  <rect class="box-blue" x="314" y="178" width="160" height="96" rx="8"/>
+  <text class="label" x="394" y="212">student</text>
+  <text class="label" x="394" y="236">backbone</text>
+  <text class="sub" x="394" y="258">logits_s + features</text>
+
+  <rect class="box-blue" x="514" y="149" width="190" height="154" rx="8"/>
+  <text class="label" x="609" y="181">feature pyramid</text>
+  <text class="sub" x="609" y="203">APF calibrated</text>
+  <g transform="translate(554 226)">
+    <rect x="0" y="0" width="92" height="54" rx="4" fill="#d9f0ff" stroke="#74b9e9" stroke-width="1.5"/>
+    <rect x="16" y="-18" width="92" height="54" rx="4" fill="#e6f6ff" stroke="#87c7ee" stroke-width="1.5"/>
+    <rect x="32" y="-36" width="92" height="54" rx="4" fill="#f2fbff" stroke="#9bd1f2" stroke-width="1.5"/>
+  </g>
+  <text class="tiny" x="609" y="291">F1, F2, F3 ...</text>
+
+  <!-- CSAM panel inside student lane -->
+  <rect class="csam-lane" x="744" y="126" width="634" height="348" rx="14"/>
+  <text class="lane-label" x="774" y="158">CSAM WITH SPR</text>
+
+  <rect class="box-teal" x="780" y="201" width="132" height="96" rx="8"/>
+  <text class="label" x="846" y="232">flatten</text>
+  <text class="sub" x="846" y="254">all levels</text>
+  <g transform="translate(811 272)">
+    <circle r="5" class="n-teal"/>
+    <circle cx="18" r="5" class="n-teal"/>
+    <circle cx="36" r="5" class="n-teal"/>
+    <circle cx="54" r="5" class="n-teal"/>
+    <circle cx="72" r="5" class="n-teal"/>
+  </g>
+  <text class="tiny" x="846" y="314">pix_all</text>
+
+  <rect class="box-teal" x="956" y="181" width="132" height="88" rx="8"/>
+  <text class="label" x="1022" y="211">prototype</text>
+  <text class="sub" x="1022" y="233">queries</text>
+  <g transform="translate(982 249)">
+    <circle r="7" class="n-purple"/>
+    <circle cx="26" r="7" class="n-purple"/>
+    <circle cx="52" r="7" class="n-purple"/>
+    <circle cx="78" r="7" class="n-purple"/>
+  </g>
+  <text class="tiny" x="1022" y="285">route_q + agent_pos</text>
+
+  <rect class="box-teal" x="956" y="323" width="132" height="94" rx="8"/>
+  <text class="label" x="1022" y="352">SPR</text>
+  <text class="sub" x="1022" y="374">soft routing</text>
+  <g transform="translate(983 386)">
+    <rect class="heat-1" x="0" y="0" width="14" height="14" rx="2"/>
+    <rect class="heat-3" x="17" y="0" width="14" height="14" rx="2"/>
+    <rect class="heat-2" x="34" y="0" width="14" height="14" rx="2"/>
+    <rect class="heat-4" x="51" y="0" width="14" height="14" rx="2"/>
+    <rect class="heat-2" x="68" y="0" width="14" height="14" rx="2"/>
+    <rect class="heat-3" x="0" y="17" width="14" height="14" rx="2"/>
+    <rect class="heat-1" x="17" y="17" width="14" height="14" rx="2"/>
+    <rect class="heat-4" x="34" y="17" width="14" height="14" rx="2"/>
+    <rect class="heat-2" x="51" y="17" width="14" height="14" rx="2"/>
+    <rect class="heat-1" x="68" y="17" width="14" height="14" rx="2"/>
+  </g>
+  <text class="tiny" x="1022" y="431">softmax(QK^T)V</text>
+
+  <rect class="box-teal" x="1130" y="201" width="140" height="96" rx="8"/>
+  <text class="label" x="1200" y="232">semantic</text>
+  <text class="label" x="1200" y="255">agents</text>
+  <g transform="translate(1158 275)">
+    <circle r="7" class="n-teal"/>
+    <circle cx="28" r="7" class="n-teal"/>
+    <circle cx="56" r="7" class="n-teal"/>
+    <circle cx="84" r="7" class="n-teal"/>
+  </g>
+  <text class="tiny" x="1200" y="314">agents_s [B,A,C]</text>
+
+  <rect class="box-teal" x="1130" y="342" width="214" height="82" rx="8"/>
+  <text class="label" x="1237" y="373">agent-to-pixel mediation</text>
+  <text class="sub" x="1237" y="395">context returns to every level</text>
+  <text class="tiny" x="1237" y="414">+ LayerScale + local positional branch</text>
+
+  <path class="arrow-teal" d="M704 226 H780"/>
+  <path class="arrow-teal" d="M912 249 H956"/>
+  <path class="arrow-teal" d="M1022 269 V323"/>
+  <path class="arrow-teal" d="M1088 370 C1117 370 1098 249 1130 249"/>
+  <path class="arrow-teal" d="M846 297 C872 352 907 370 956 370"/>
+  <path class="arrow-teal" d="M1200 297 V342"/>
+  <path class="arrow-teal" d="M912 249 C978 155 1111 155 1130 249"/>
+  <text class="tiny" x="1070" y="166" fill="#169c9d">agents aggregate region tokens</text>
+
+  <rect class="box-blue" x="1420" y="160" width="162" height="128" rx="8"/>
+  <text class="label" x="1501" y="191">enhanced</text>
+  <text class="label" x="1501" y="214">pyramid</text>
+  <g transform="translate(1457 236)">
+    <rect x="0" y="0" width="74" height="42" rx="4" fill="#e8f8ff" stroke="#77bfeb" stroke-width="1.5"/>
+    <rect x="12" y="-14" width="74" height="42" rx="4" fill="#f0fbff" stroke="#8acbf0" stroke-width="1.5"/>
+    <rect x="24" y="-28" width="74" height="42" rx="4" fill="#f8feff" stroke="#a0d7f4" stroke-width="1.5"/>
+  </g>
+  <text class="tiny" x="1501" y="303">Fhat_l</text>
+
+  <rect class="box-blue" x="1418" y="346" width="166" height="94" rx="8"/>
+  <text class="label" x="1501" y="376">local logits_s</text>
+  <text class="sub" x="1501" y="398">SPP M={1,2,4}</text>
+  <text class="tiny" x="1501" y="419">student classifier</text>
+
+  <path class="arrow-teal" d="M1344 383 H1420"/>
+  <path class="arrow-blue" d="M1501 288 V346"/>
+  <path class="arrow-blue" d="M230 282 H314"/>
+  <path class="arrow-blue" d="M474 226 H514"/>
+
+  <!-- Student global logits -->
+  <rect class="box-blue" x="326" y="362" width="136" height="74" rx="8"/>
+  <text class="label" x="394" y="391">global</text>
+  <text class="sub" x="394" y="413">logits_s</text>
+  <path class="arrow-blue thin" d="M394 274 V362"/>
+
+  <!-- Teacher branch -->
+  <rect class="teacher-lane" x="270" y="574" width="744" height="360" rx="14"/>
+  <text class="lane-label" x="306" y="608">FROZEN TEACHER TARGET PATH</text>
+
+  <rect class="box-orange" x="314" y="678" width="160" height="96" rx="8"/>
+  <text class="label" x="394" y="712">teacher</text>
+  <text class="label" x="394" y="736">backbone</text>
+  <text class="sub" x="394" y="758">eval + no grad</text>
+
+  <rect class="box-orange" x="532" y="626" width="144" height="80" rx="8"/>
+  <text class="label" x="604" y="657">global</text>
+  <text class="sub" x="604" y="679">logits_t</text>
+
+  <rect class="box-orange" x="532" y="744" width="144" height="84" rx="8"/>
+  <text class="label" x="604" y="776">deep feature</text>
+  <text class="sub" x="604" y="798">feat_t[-1]</text>
+
+  <rect class="box-orange" x="734" y="626" width="196" height="80" rx="8"/>
+  <text class="label" x="832" y="657">local logits_t</text>
+  <text class="sub" x="832" y="679">non-parametric SPP</text>
+
+  <rect class="box-orange" x="734" y="744" width="196" height="84" rx="8"/>
+  <text class="label" x="832" y="775">teacher agents_t</text>
+  <text class="sub" x="832" y="797">adaptive avg pool</text>
+
+  <rect class="box-gray" x="764" y="862" width="136" height="48" rx="8"/>
+  <text class="code" x="832" y="891">no APF / CSAM / SPR</text>
+
+  <path class="arrow-orange" d="M230 282 C250 282 250 726 314 726"/>
+  <path class="arrow-orange" d="M474 726 C506 726 501 666 532 666"/>
+  <path class="arrow-orange" d="M474 726 H532"/>
+  <path class="arrow-orange" d="M676 786 H734"/>
+  <path class="arrow-orange" d="M676 786 C701 786 703 666 734 666"/>
+
+  <!-- Relation graph and loss lane -->
+  <rect class="loss-lane" x="1060" y="574" width="562" height="360" rx="14"/>
+  <text class="lane-label" x="1096" y="608">DISTILLATION OBJECTIVES</text>
+
+  <rect class="box-purple" x="1098" y="646" width="174" height="92" rx="8"/>
+  <text class="label" x="1185" y="677">GAC</text>
+  <text class="sub" x="1185" y="700">agent relation graph</text>
+  <g transform="translate(1138 718)">
+    <circle r="5" class="n-purple"/>
+    <circle cx="32" cy="-10" r="5" class="n-purple"/>
+    <circle cx="66" cy="0" r="5" class="n-purple"/>
+    <path d="M0 0 L32 -10 L66 0 M0 0 L66 0" fill="none" stroke="#8e77d6" stroke-width="1.4"/>
+  </g>
+
+  <rect class="box-purple" x="1324" y="646" width="222" height="92" rx="8"/>
+  <text class="label" x="1435" y="677">reliability-aware</text>
+  <text class="sub" x="1435" y="700">local SDD</text>
+  <text class="tiny" x="1435" y="720">teacher confidence weights</text>
+
+  <rect class="box-purple" x="1098" y="796" width="174" height="86" rx="8"/>
+  <text class="label" x="1185" y="827">global KD</text>
+  <text class="sub" x="1185" y="849">logits_s vs logits_t</text>
+
+  <rect class="box-purple" x="1324" y="796" width="222" height="86" rx="8"/>
+  <text class="label" x="1435" y="827">LGC</text>
+  <text class="sub" x="1435" y="849">local_s vs global teacher</text>
+
+  <rect class="box-purple" x="1574" y="696" width="116" height="98" rx="8"/>
+  <text class="label" x="1632" y="730">loss</text>
+  <text class="sub" x="1632" y="752">student update</text>
+  <path class="icon" d="M1609 772 h46 M1632 749 v46"/>
+
+  <!-- Arrows into losses -->
+  <path class="arrow-purple" d="M1200 297 C1200 526 1185 526 1185 646"/>
+  <path class="arrow-orange dash" d="M930 786 C1028 786 1028 692 1098 692"/>
+  <path class="arrow-purple" d="M1584 393 C1650 393 1664 522 1435 646"/>
+  <path class="arrow-orange dash" d="M930 666 C1102 666 1112 692 1324 692"/>
+  <path class="arrow-blue" d="M394 436 C394 842 1042 839 1098 839"/>
+  <path class="arrow-orange dash" d="M676 666 C842 666 930 839 1098 839"/>
+  <path class="arrow-purple" d="M1501 440 C1516 562 1510 740 1435 796"/>
+  <path class="arrow-orange dash" d="M676 666 C918 666 1092 839 1324 839"/>
+
+  <path class="arrow-purple" d="M1272 692 H1324"/>
+  <path class="arrow-purple" d="M1546 692 H1574"/>
+  <path class="arrow-purple" d="M1272 839 C1390 839 1466 794 1574 760"/>
+  <path class="arrow-purple" d="M1546 839 C1570 839 1566 760 1574 760"/>
+
+  <!-- Legend -->
+  <rect class="box" x="78" y="720" width="122" height="158" rx="8"/>
+  <circle cx="102" cy="752" r="7" class="n-blue"/>
+  <text class="sub" x="153" y="757">student</text>
+  <circle cx="102" cy="790" r="7" class="n-teal"/>
+  <text class="sub" x="153" y="795">CSAM/SPR</text>
+  <circle cx="102" cy="828" r="7" class="n-orange"/>
+  <text class="sub" x="153" y="833">teacher</text>
+  <circle cx="102" cy="866" r="7" class="n-purple"/>
+  <text class="sub" x="153" y="871">losses</text>
+
+  <!-- Main formula callouts -->
+  <rect class="box-teal" x="780" y="486" width="564" height="48" rx="8"/>
+  <text class="code" x="1062" y="516">SPR: agents_s = agent_proj( softmax(route_q route_k(pix_all)^T) route_v(pix_all) ) + agent_pos</text>
+
+  <rect class="box-gray" x="1110" y="944" width="402" height="48" rx="8"/>
+  <text class="code" x="1311" y="974">teacher targets are detached; only student modules are optimized</text>
+</svg>

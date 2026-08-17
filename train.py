@@ -9,10 +9,20 @@ from mdistiller.engine.cfg import load_config
 from mdistiller.engine.utils import seed_everything, save_checkpoint, load_state_safely
 from mdistiller.engine.trainer import train_one_epoch, evaluate
 from mdistiller.dataset import build_loaders
+from mdistiller.dataset.loader_utils import solver_value
 from mdistiller.models import build_model
 from mdistiller.distillers import build_distiller
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.enabled = True
+
+
+def _solver_bool(cfg, primary: str, default=False, fallback: str | None = None):
+    solver = getattr(cfg, 'SOLVER', None)
+    if solver is not None and hasattr(solver, primary):
+        return bool(getattr(solver, primary))
+    if fallback and solver is not None and hasattr(solver, fallback):
+        return bool(getattr(solver, fallback))
+    return bool(default)
 
 
 def get_teacher_ckpt_fallback(cfg, requested_ckpt: str) -> tuple[str, str] | tuple[None, None]:
@@ -53,6 +63,8 @@ def parse_args():
 
 def main():
     args = parse_args()
+    if args.gpu is not None:
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
     Path(args.output).mkdir(parents=True, exist_ok=True)
     log_path = Path(args.output) / 'train_log.txt'
 
@@ -64,8 +76,6 @@ def main():
     log(f'[START] {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
     cfg = load_config(args.cfg)
     seed_everything(int(getattr(cfg.SOLVER, 'SEED', 42)))
-    if args.gpu is not None:
-        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     if device.type == 'cuda':
         log(
@@ -75,10 +85,12 @@ def main():
         )
     else:
         log('[DEVICE] cpu (torch.cuda.is_available() is False)')
+    channels_last = _solver_bool(cfg, 'CHANNELS_LAST', default=False) and device.type == 'cuda'
     train_loader, val_loader = build_loaders(cfg, args.data_root, args.debug_fake_data)
     log(
         f'[DATA] train_batches={len(train_loader)} val_batches={len(val_loader)} '
-        f'batch_size={cfg.SOLVER.BATCH_SIZE} num_workers={cfg.SOLVER.NUM_WORKERS}'
+        f'batch_size={solver_value(cfg, "BATCH_SIZE", "?")} '
+        f'num_workers={solver_value(cfg, "NUM_WORKERS", "?")}'
     )
     student = build_model(cfg.MODEL.STUDENT, num_classes=cfg.DATASET.NUM_CLASSES, dataset=cfg.DATASET.NAME).to(device)
     teacher = build_model(cfg.MODEL.TEACHER, num_classes=cfg.DATASET.NUM_CLASSES, dataset=cfg.DATASET.NAME).to(device)
@@ -108,7 +120,16 @@ def main():
     else:
         log(f'[INFO] teacher checkpoint loaded: {loaded_ckpt}')
     distiller = build_distiller(cfg.DISTILLER.TYPE, student, teacher, cfg).to(device)
-    opt = SGD([p for p in distiller.parameters() if p.requires_grad], lr=cfg.SOLVER.LR, momentum=cfg.SOLVER.MOMENTUM, weight_decay=cfg.SOLVER.WEIGHT_DECAY)
+    if channels_last:
+        distiller = distiller.to(memory_format=torch.channels_last)
+    nesterov = _solver_bool(cfg, 'NESTEROV', default=False)
+    opt = SGD(
+        [p for p in distiller.parameters() if p.requires_grad],
+        lr=cfg.SOLVER.LR,
+        momentum=cfg.SOLVER.MOMENTUM,
+        weight_decay=cfg.SOLVER.WEIGHT_DECAY,
+        nesterov=nesterov,
+    )
     epochs = args.epochs or int(cfg.SOLVER.EPOCHS)
     sched_type = str(getattr(cfg.SOLVER, 'SCHEDULER', 'multistep')).lower()
     if sched_type == 'cosine':
@@ -116,24 +137,36 @@ def main():
         sched = CosineAnnealingLR(opt, T_max=epochs, eta_min=eta_min)
     else:
         sched = MultiStepLR(opt, milestones=list(cfg.SOLVER.LR_DECAY_STAGES), gamma=float(cfg.SOLVER.LR_DECAY_RATE))
-    use_amp = bool(getattr(cfg.SOLVER, 'USE_AMP', False))
+    use_amp = _solver_bool(cfg, 'USE_AMP', default=False, fallback='AMP')
     grad_clip_norm = float(getattr(cfg.SOLVER, 'GRAD_CLIP_NORM', 0.0))
-    log(f'[SOLVER] epochs={epochs} amp={use_amp} grad_clip_norm={grad_clip_norm}')
+    scaler = torch.amp.GradScaler('cuda', enabled=bool(use_amp and device.type == 'cuda'))
+    log(f'[SOLVER] epochs={epochs} amp={use_amp} grad_clip_norm={grad_clip_norm} nesterov={nesterov} channels_last={channels_last}')
     eval_interval = max(1, int(args.eval_interval))
     best = 0.0
     best_epoch = -1
     for epoch in range(epochs):
         log(f'\n[Epoch {epoch+1}/{epochs}] lr={opt.param_groups[0]["lr"]:.6f}')
-        tr = train_one_epoch(distiller, train_loader, opt, device, epoch=epoch, use_amp=use_amp, grad_clip_norm=grad_clip_norm)
+        tr = train_one_epoch(
+            distiller,
+            train_loader,
+            opt,
+            device,
+            epoch=epoch,
+            use_amp=use_amp,
+            grad_clip_norm=grad_clip_norm,
+            scaler=scaler,
+            channels_last=channels_last,
+        )
         log(
             f'[TRAIN] loss={tr["loss"]:.4f} ce={tr.get("loss_ce", 0.0):.4f} '
             f'kd={tr.get("loss_global", 0.0):.4f} local={tr.get("loss_local", 0.0):.4f} '
-            f'gac={tr.get("loss_gac", 0.0):.4f} top1={tr["top1"]:.2f}'
+            f'gac={tr.get("loss_gac", 0.0):.4f} lgc={tr.get("loss_lgc", 0.0):.4f} '
+            f'top1={tr["top1"]:.2f}'
         )
         do_eval = ((epoch + 1) % eval_interval == 0) or ((epoch + 1) == epochs)
         ev = None
         if do_eval:
-            ev = evaluate(student, val_loader, device, topk=(1,5))
+            ev = evaluate(student, val_loader, device, topk=(1,5), channels_last=channels_last)
             log(f'[EVAL] val_loss={ev["loss"]:.4f} val_top1={ev["top1"]:.2f} val_top5={ev["top5"]:.2f}')
         state = {
             'epoch': epoch+1,

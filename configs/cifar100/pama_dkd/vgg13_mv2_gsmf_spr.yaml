@@ -1,0 +1,43 @@
+# Auto-generated = <base config> + APF_GSMF + CSAM_AGENT_INIT=routing (PAMA-SDD++ GSMF+SPR)
+DATASET:
+  NAME: cifar100
+  NUM_CLASSES: 100
+  IMG_SIZE: 32
+  ROOT: D:/LCX/PAMA-SDD/data/cifar100
+MODEL:
+  TEACHER: vgg13
+  STUDENT: mobilenetv2
+  TEACHER_CKPT: D:/LCX/PAMA-SDD/save/models/vgg13_vanilla/ckpt_epoch_240.pth
+DISTILLER:
+  TYPE: PAMA_DKD
+  CE_WEIGHT: 1.0
+  KD_WEIGHT: 1.0
+  SDD_WEIGHT: 1.0
+  GAC_WEIGHT: 1.0
+  ALPHA: 1.0
+  BETA: 8.0
+  T: 4.0
+  WARMUP: 30
+PAMA:
+  M:
+  - 1
+  - 2
+  - 4
+  NUM_AGENTS: 16
+  NUM_HEADS: 4
+  EMBED_DIM: 256
+  APF_GSMF: true
+  CSAM_AGENT_INIT: routing
+SOLVER:
+  EPOCHS: 240
+  BATCH_SIZE: 64
+  NUM_WORKERS: 4
+  LR: 0.01
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.0005
+  LR_DECAY_STAGES:
+  - 150
+  - 180
+  - 210
+  LR_DECAY_RATE: 0.1
+  SEED: 42

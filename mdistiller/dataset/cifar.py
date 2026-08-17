@@ -1,6 +1,7 @@
 from pathlib import Path
-from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+
+from .loader_utils import build_dataloader
 
 
 def build_cifar100(cfg, data_root=None):
@@ -16,5 +17,4 @@ def build_cifar100(cfg, data_root=None):
     test_tf = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean, std)])
     train_set = datasets.CIFAR100(root=root, train=True, download=True, transform=train_tf)
     test_set = datasets.CIFAR100(root=root, train=False, download=True, transform=test_tf)
-    return (DataLoader(train_set, batch_size=cfg.SOLVER.BATCH_SIZE, shuffle=True, num_workers=cfg.SOLVER.NUM_WORKERS, pin_memory=True),
-            DataLoader(test_set, batch_size=cfg.SOLVER.BATCH_SIZE, shuffle=False, num_workers=cfg.SOLVER.NUM_WORKERS, pin_memory=True))
+    return build_dataloader(train_set, cfg, shuffle=True), build_dataloader(test_set, cfg, shuffle=False)

@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1040" viewBox="0 0 1800 1040" role="img" aria-label="Agent aggregation mechanism in CSAM">
+  <defs>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#159b9c"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7558c7"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2477b7"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#637083"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#14304a" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="input-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8f7ff"/>
+      <stop offset="1" stop-color="#f9fdff"/>
+    </linearGradient>
+    <linearGradient id="agg-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fbfa"/>
+      <stop offset="1" stop-color="#fbfffe"/>
+    </linearGradient>
+    <linearGradient id="out-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4efff"/>
+      <stop offset="1" stop-color="#fffafe"/>
+    </linearGradient>
+    <style>
+      .bg { fill:#fbfdff; }
+      .panel { fill:#ffffff; stroke:#d7e1ed; stroke-width:1.6; filter:url(#shadow); }
+      .input-panel { fill:url(#input-grad); stroke:#9ed2ef; stroke-width:1.8; filter:url(#shadow); }
+      .agg-panel { fill:url(#agg-grad); stroke:#87d6d2; stroke-width:1.8; filter:url(#shadow); }
+      .out-panel { fill:url(#out-grad); stroke:#baa8e8; stroke-width:1.8; filter:url(#shadow); }
+      .box { fill:#ffffff; stroke:#cbd7e6; stroke-width:1.4; filter:url(#shadow); }
+      .box-blue { fill:#eef8ff; stroke:#80bee9; stroke-width:1.5; }
+      .box-teal { fill:#ebfbfa; stroke:#72cbc7; stroke-width:1.5; }
+      .box-purple { fill:#f4efff; stroke:#ad99e3; stroke-width:1.5; }
+      .box-gray { fill:#f6f8fb; stroke:#bac6d4; stroke-width:1.5; }
+      .label { font-family:Arial, Helvetica, sans-serif; font-size:17px; font-weight:700; fill:#25364a; text-anchor:middle; }
+      .sub { font-family:Arial, Helvetica, sans-serif; font-size:13px; fill:#526276; text-anchor:middle; }
+      .tiny { font-family:Arial, Helvetica, sans-serif; font-size:11px; fill:#5c6a7b; text-anchor:middle; }
+      .code { font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:700; fill:#37485c; text-anchor:middle; }
+      .panel-label { font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:700; fill:#5b687a; letter-spacing:0; }
+      .arrow-teal { fill:none; stroke:#159b9c; stroke-width:2.5; marker-end:url(#arrow-teal); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-purple { fill:none; stroke:#7558c7; stroke-width:2.5; marker-end:url(#arrow-purple); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-blue { fill:none; stroke:#2477b7; stroke-width:2.5; marker-end:url(#arrow-blue); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-gray { fill:none; stroke:#637083; stroke-width:2.2; marker-end:url(#arrow-gray); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:7 7; }
+      .n-blue { fill:#68b8ed; }
+      .n-teal { fill:#61c9c4; }
+      .n-purple { fill:#a58ee3; }
+      .n-gray { fill:#aeb9c8; }
+      .heat1 { fill:#dff6f5; }
+      .heat2 { fill:#afe4e1; }
+      .heat3 { fill:#63c7c2; }
+      .heat4 { fill:#1b9c9e; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="1040"/>
+
+  <!-- Inputs -->
+  <rect class="input-panel" x="66" y="112" width="430" height="780" rx="14"/>
+  <text class="panel-label" x="104" y="146">INPUTS TO AGENT AGGREGATION</text>
+
+  <rect class="box-blue" x="120" y="226" width="304" height="126" rx="8"/>
+  <text class="label" x="272" y="258">multi-scale region tokens</text>
+  <text class="sub" x="272" y="280">pix_all from all pyramid levels</text>
+  <g transform="translate(170 312)">
+    <circle r="5" class="n-blue"/>
+    <circle cx="24" r="5" class="n-blue"/>
+    <circle cx="48" r="5" class="n-teal"/>
+    <circle cx="72" r="5" class="n-teal"/>
+    <circle cx="96" r="5" class="n-purple"/>
+    <circle cx="120" r="5" class="n-purple"/>
+    <circle cx="144" r="5" class="n-blue"/>
+    <circle cx="168" r="5" class="n-teal"/>
+    <circle cx="192" r="5" class="n-purple"/>
+  </g>
+  <text class="code" x="272" y="338">pix_all: [B, N_all, C]</text>
+
+  <rect class="box-purple" x="120" y="500" width="304" height="126" rx="8"/>
+  <text class="label" x="272" y="532">initial semantic agents</text>
+  <text class="sub" x="272" y="554">from SPR routing or pooling</text>
+  <g transform="translate(194 590)">
+    <circle r="8" class="n-purple"/>
+    <circle cx="52" r="8" class="n-purple"/>
+    <circle cx="104" r="8" class="n-purple"/>
+    <circle cx="156" r="8" class="n-purple"/>
+  </g>
+  <text class="code" x="272" y="616">agents: [B, A, C]</text>
+
+  <rect class="box-gray" x="112" y="738" width="320" height="76" rx="8"/>
+  <text class="code" x="272" y="768">aggregation happens after SPR initialization</text>
+  <text class="tiny" x="272" y="790">SPR creates agents; aggregation updates agents with all region evidence</text>
+
+  <!-- Core computation -->
+  <rect class="agg-panel" x="556" y="80" width="760" height="832" rx="14"/>
+  <text class="panel-label" x="594" y="114">AGENT AGGREGATION: AGENTS QUERY ALL REGION TOKENS</text>
+
+  <rect class="box-purple" x="608" y="184" width="166" height="92" rx="8"/>
+  <text class="label" x="691" y="216">agent query</text>
+  <text class="sub" x="691" y="238">q_agent(agents)</text>
+  <text class="tiny" x="691" y="258">q_a: [B,h,A,d]</text>
+
+  <rect class="box-blue" x="608" y="368" width="166" height="92" rx="8"/>
+  <text class="label" x="691" y="400">pixel key</text>
+  <text class="sub" x="691" y="422">k_pix(pix_all)</text>
+  <text class="tiny" x="691" y="442">k_p: [B,h,N,d]</text>
+
+  <rect class="box-blue" x="608" y="552" width="166" height="92" rx="8"/>
+  <text class="label" x="691" y="584">pixel value</text>
+  <text class="sub" x="691" y="606">v_pix(pix_all)</text>
+  <text class="tiny" x="691" y="626">v_p: [B,h,N,d]</text>
+
+  <rect class="box-teal" x="858" y="270" width="176" height="126" rx="8"/>
+  <text class="label" x="946" y="302">attention logits</text>
+  <text class="sub" x="946" y="324">q_a k_p^T / sqrt(d)</text>
+  <g transform="translate(896 348)">
+    <rect class="heat1" x="0" y="0" width="18" height="18"/>
+    <rect class="heat3" x="20" y="0" width="18" height="18"/>
+    <rect class="heat2" x="40" y="0" width="18" height="18"/>
+    <rect class="heat4" x="60" y="0" width="18" height="18"/>
+    <rect class="heat2" x="80" y="0" width="18" height="18"/>
+    <rect class="heat3" x="0" y="20" width="18" height="18"/>
+    <rect class="heat1" x="20" y="20" width="18" height="18"/>
+    <rect class="heat4" x="40" y="20" width="18" height="18"/>
+    <rect class="heat2" x="60" y="20" width="18" height="18"/>
+    <rect class="heat1" x="80" y="20" width="18" height="18"/>
+  </g>
+  <text class="tiny" x="946" y="386">[B,h,A,N_all]</text>
+
+  <rect class="box-teal" x="1094" y="270" width="166" height="126" rx="8"/>
+  <text class="label" x="1177" y="302">softmax</text>
+  <text class="sub" x="1177" y="324">over region tokens</text>
+  <text class="tiny" x="1177" y="346">each agent chooses</text>
+  <text class="tiny" x="1177" y="366">which regions to read</text>
+
+  <rect class="box-teal" x="858" y="520" width="176" height="110" rx="8"/>
+  <text class="label" x="946" y="552">weighted sum</text>
+  <text class="sub" x="946" y="574">attn_a v_p</text>
+  <text class="tiny" x="946" y="596">aggregate token evidence</text>
+
+  <rect class="box-purple" x="1094" y="520" width="166" height="110" rx="8"/>
+  <text class="label" x="1177" y="552">agent residual</text>
+  <text class="sub" x="1177" y="574">agents + context</text>
+  <text class="tiny" x="1177" y="596">LayerNorm</text>
+
+  <rect class="box-gray" x="724" y="736" width="430" height="76" rx="8"/>
+  <text class="code" x="939" y="766">agents_upd = LayerNorm( agents + Merge( softmax(q_a k_p^T) v_p ) )</text>
+  <text class="tiny" x="939" y="788">this is multi-head cross-attention from agents to all region tokens</text>
+
+  <path class="arrow-purple" d="M424 563 C502 563 510 230 608 230"/>
+  <path class="arrow-blue" d="M424 289 C502 289 510 414 608 414"/>
+  <path class="arrow-blue" d="M424 289 C518 289 508 598 608 598"/>
+  <path class="arrow-purple" d="M774 230 C818 230 820 333 858 333"/>
+  <path class="arrow-blue" d="M774 414 C818 414 820 333 858 333"/>
+  <path class="arrow-teal" d="M1034 333 H1094"/>
+  <path class="arrow-teal" d="M1177 396 C1177 466 1002 468 960 520"/>
+  <path class="arrow-blue" d="M774 598 H858"/>
+  <path class="arrow-teal" d="M1034 575 H1094"/>
+  <path class="arrow-purple" d="M1177 630 C1177 690 1040 700 1008 736"/>
+
+  <!-- Output and downstream -->
+  <rect class="out-panel" x="1378" y="112" width="356" height="780" rx="14"/>
+  <text class="panel-label" x="1414" y="146">OUTPUT AND NEXT STEPS</text>
+
+  <rect class="box-purple" x="1432" y="238" width="248" height="108" rx="8"/>
+  <text class="label" x="1556" y="270">updated agents</text>
+  <text class="sub" x="1556" y="292">agents_upd: [B,A,C]</text>
+  <g transform="translate(1490 324)">
+    <circle r="8" class="n-teal"/>
+    <circle cx="44" r="8" class="n-teal"/>
+    <circle cx="88" r="8" class="n-teal"/>
+    <circle cx="132" r="8" class="n-teal"/>
+  </g>
+
+  <rect class="box-teal" x="1432" y="454" width="248" height="92" rx="8"/>
+  <text class="label" x="1556" y="486">agent-to-pixel</text>
+  <text class="sub" x="1556" y="508">agents become key/value</text>
+  <text class="tiny" x="1556" y="528">enhance every pyramid level</text>
+
+  <rect class="box-purple" x="1432" y="646" width="248" height="92" rx="8"/>
+  <text class="label" x="1556" y="678">GAC relation graph</text>
+  <text class="sub" x="1556" y="700">use updated agents_s</text>
+  <text class="tiny" x="1556" y="720">auxiliary relation target</text>
+
+  <path class="arrow-purple" d="M1260 575 C1350 575 1342 292 1432 292"/>
+  <path class="arrow-teal" d="M1556 346 V454"/>
+  <path class="arrow-purple" d="M1556 346 C1610 430 1610 570 1556 646"/>
+
+  <!-- Direction note -->
+  <rect class="box-gray" x="1386" y="790" width="340" height="66" rx="8"/>
+  <text class="code" x="1556" y="818">direction: agent queries -> region keys/values</text>
+  <text class="tiny" x="1556" y="840">agent aggregation is region-to-agent evidence collection</text>
+</svg>

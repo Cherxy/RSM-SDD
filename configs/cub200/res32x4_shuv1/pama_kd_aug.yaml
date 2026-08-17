@@ -1,0 +1,45 @@
+DATASET:
+  NAME: cub200
+  NUM_CLASSES: 200
+  IMG_SIZE: 224
+  ROOT: D:/LCX/PAMA-SDD/data/CUB_200_2011
+  # --- stronger augmentation (anti-overfitting for from-scratch CUB) ---
+  RANDOM_RESIZED_CROP: true   # replaces Resize+RandomCrop with scale augmentation
+  RRC_SCALE_MIN: 0.5          # crop area in [0.5, 1.0]; higher = milder (keeps bird in frame)
+  COLOR_JITTER: 0.4           # brightness/contrast/saturation jitter; 0 = off
+  RANDOM_ERASING: 0.25        # prob of random erasing on the normalized tensor; 0 = off
+MODEL:
+  TEACHER: resnet32x4
+  STUDENT: shufflenetv1
+  TEACHER_CKPT: D:/LCX/PAMA-SDD/save/cub200/resnet32x4/ckpt.pth
+DISTILLER:
+  TYPE: PAMA_KD
+  CE_WEIGHT: 1.0
+  KD_WEIGHT: 1.0
+  SDD_WEIGHT: 1.0
+  GAC_WEIGHT: 1.0
+  ALPHA: 1.0
+  BETA: 8.0
+  T: 4.0
+  WARMUP: 30
+  LABEL_SMOOTHING: 0.1        # regularizes the CE term
+PAMA:
+  M: [1, 2, 4]
+  NUM_AGENTS: 16
+  NUM_HEADS: 4
+  EMBED_DIM: 256
+  MAX_SPATIAL_SIZE: 56
+SOLVER:
+  EPOCHS: 240
+  BATCH_SIZE: 32
+  NUM_WORKERS: 4
+  USE_AMP: true
+  GRAD_CLIP_NORM: 5.0         # caps gradients so fp16 attention can't overflow to NaN (DKD/NKD safety)
+  LR: 0.01
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.0005
+  SCHEDULER: cosine           # smooth decay over all 240 epochs (multistep wasted ~90)
+  MIN_LR: 0.00001
+  LR_DECAY_STAGES: [150, 180, 210]  # ignored when SCHEDULER=cosine
+  LR_DECAY_RATE: 0.1
+  SEED: 42

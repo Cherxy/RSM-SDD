@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1120" viewBox="0 0 1900 1120" role="img" aria-label="Implementation flowchart for local SDD decoupling and GAC relation target">
+  <defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2477b7"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#d77b25"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7658c7"/>
+    </marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#159c9c"/>
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#687486"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#17324a" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="blue-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9f7ff"/>
+      <stop offset="1" stop-color="#f9fdff"/>
+    </linearGradient>
+    <linearGradient id="orange-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff2e2"/>
+      <stop offset="1" stop-color="#fffdf9"/>
+    </linearGradient>
+    <linearGradient id="purple-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3edff"/>
+      <stop offset="1" stop-color="#fffafe"/>
+    </linearGradient>
+    <linearGradient id="teal-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7fbfa"/>
+      <stop offset="1" stop-color="#fbfffe"/>
+    </linearGradient>
+    <style>
+      .bg { fill:#fbfdff; }
+      .panel { fill:#ffffff; stroke:#d7e1ed; stroke-width:1.6; filter:url(#shadow); }
+      .panel-blue { fill:url(#blue-grad); stroke:#9fd2ef; stroke-width:1.8; filter:url(#shadow); }
+      .panel-orange { fill:url(#orange-grad); stroke:#e6bb83; stroke-width:1.8; filter:url(#shadow); }
+      .panel-purple { fill:url(#purple-grad); stroke:#baa9e8; stroke-width:1.8; filter:url(#shadow); }
+      .panel-teal { fill:url(#teal-grad); stroke:#8bd8d4; stroke-width:1.8; filter:url(#shadow); }
+      .box { fill:#ffffff; stroke:#cbd7e6; stroke-width:1.4; filter:url(#shadow); }
+      .box-blue { fill:#eef8ff; stroke:#80bee9; stroke-width:1.5; }
+      .box-orange { fill:#fff3e5; stroke:#e4a160; stroke-width:1.5; }
+      .box-purple { fill:#f4efff; stroke:#ad99e3; stroke-width:1.5; }
+      .box-teal { fill:#ebfbfa; stroke:#72cbc7; stroke-width:1.5; }
+      .box-gray { fill:#f6f8fb; stroke:#bac6d4; stroke-width:1.5; }
+      .label { font-family:Arial, Helvetica, sans-serif; font-size:17px; font-weight:700; fill:#25364a; text-anchor:middle; }
+      .sub { font-family:Arial, Helvetica, sans-serif; font-size:13px; fill:#526276; text-anchor:middle; }
+      .tiny { font-family:Arial, Helvetica, sans-serif; font-size:11px; fill:#5c6a7b; text-anchor:middle; }
+      .code { font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:700; fill:#37485c; text-anchor:middle; }
+      .panel-label { font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:700; fill:#5b687a; letter-spacing:0; }
+      .arrow-blue { fill:none; stroke:#2477b7; stroke-width:2.5; marker-end:url(#arr-blue); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-orange { fill:none; stroke:#d77b25; stroke-width:2.5; marker-end:url(#arr-orange); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-purple { fill:none; stroke:#7658c7; stroke-width:2.5; marker-end:url(#arr-purple); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-teal { fill:none; stroke:#159c9c; stroke-width:2.5; marker-end:url(#arr-teal); stroke-linecap:round; stroke-linejoin:round; }
+      .arrow-gray { fill:none; stroke:#687486; stroke-width:2.2; marker-end:url(#arr-gray); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:7 7; }
+      .n-blue { fill:#68b8ed; }
+      .n-orange { fill:#eda35d; }
+      .n-purple { fill:#a58ee3; }
+      .n-teal { fill:#61c9c4; }
+      .n-gray { fill:#aeb9c8; }
+      .grid-line { stroke:#dde6f0; stroke-width:1; }
+      .table-head { fill:#edf3fb; stroke:#ccd8e7; stroke-width:1; }
+      .table-row { fill:#ffffff; stroke:#dbe4ee; stroke-width:1; }
+      .heat1 { fill:#dff6f5; }
+      .heat2 { fill:#afe4e1; }
+      .heat3 { fill:#63c7c2; }
+      .heat4 { fill:#1b9c9e; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1900" height="1120"/>
+
+  <!-- Left input and branches -->
+  <rect class="panel" x="50" y="88" width="180" height="884" rx="12"/>
+  <text class="panel-label" x="78" y="122">INPUT</text>
+  <rect class="box-blue" x="82" y="190" width="116" height="86" rx="8"/>
+  <text class="label" x="140" y="226">image</text>
+  <text class="sub" x="140" y="250">x</text>
+  <rect class="box-gray" x="82" y="754" width="116" height="86" rx="8"/>
+  <text class="label" x="140" y="790">label</text>
+  <text class="sub" x="140" y="814">y</text>
+
+  <rect class="panel-blue" x="270" y="88" width="440" height="388" rx="14"/>
+  <text class="panel-label" x="306" y="122">STUDENT LOCAL LOGITS</text>
+  <rect class="box-blue" x="310" y="166" width="152" height="82" rx="8"/>
+  <text class="label" x="386" y="198">student</text>
+  <text class="sub" x="386" y="222">backbone</text>
+  <rect class="box-blue" x="518" y="146" width="148" height="74" rx="8"/>
+  <text class="label" x="592" y="177">APF</text>
+  <text class="sub" x="592" y="199">pyramid</text>
+  <rect class="box-teal" x="518" y="258" width="148" height="82" rx="8"/>
+  <text class="label" x="592" y="290">CSAM-SPR</text>
+  <text class="sub" x="592" y="314">enhanced pyramid</text>
+  <rect class="box-blue" x="366" y="372" width="244" height="72" rx="8"/>
+  <text class="label" x="488" y="402">SPP + student classifier</text>
+  <text class="sub" x="488" y="424">local_s: [B,K,N]</text>
+  <path class="arrow-blue" d="M198 233 H310"/>
+  <path class="arrow-blue" d="M462 207 H518"/>
+  <path class="arrow-blue" d="M592 220 V258"/>
+  <path class="arrow-blue" d="M592 340 C592 360 540 360 520 372"/>
+
+  <rect class="panel-orange" x="270" y="526" width="440" height="388" rx="14"/>
+  <text class="panel-label" x="306" y="560">FROZEN TEACHER TARGETS</text>
+  <rect class="box-orange" x="310" y="626" width="152" height="82" rx="8"/>
+  <text class="label" x="386" y="658">teacher</text>
+  <text class="sub" x="386" y="682">eval, no grad</text>
+  <rect class="box-orange" x="518" y="596" width="148" height="74" rx="8"/>
+  <text class="label" x="592" y="627">feat_t[-1]</text>
+  <text class="sub" x="592" y="649">deep feature</text>
+  <rect class="box-orange" x="518" y="706" width="148" height="74" rx="8"/>
+  <text class="label" x="592" y="737">SPP</text>
+  <text class="sub" x="592" y="759">M={1,2,4}</text>
+  <rect class="box-orange" x="366" y="818" width="244" height="72" rx="8"/>
+  <text class="label" x="488" y="848">teacher classifier</text>
+  <text class="sub" x="488" y="870">local_t: [B,K,N]</text>
+  <path class="arrow-orange" d="M198 233 C238 233 232 667 310 667"/>
+  <path class="arrow-orange" d="M462 667 H518"/>
+  <path class="arrow-orange" d="M592 670 V706"/>
+  <path class="arrow-orange" d="M592 780 C592 804 542 804 520 818"/>
+
+  <!-- SDD decoupling panel -->
+  <rect class="panel-purple" x="760" y="88" width="514" height="826" rx="14"/>
+  <text class="panel-label" x="798" y="122">LOCAL SDD DECOUPLING + RELIABILITY</text>
+
+  <rect class="box-purple" x="806" y="158" width="190" height="82" rx="8"/>
+  <text class="label" x="901" y="190">reshape</text>
+  <text class="sub" x="901" y="212">[B,K,N] -> [N*B,K]</text>
+
+  <rect class="box-purple" x="1042" y="158" width="184" height="82" rx="8"/>
+  <text class="label" x="1134" y="190">base KD</text>
+  <text class="sub" x="1134" y="212">KD / DKD / NKD</text>
+
+  <rect class="box-orange" x="806" y="288" width="190" height="96" rx="8"/>
+  <text class="label" x="901" y="320">teacher state</text>
+  <text class="sub" x="901" y="342">local_correct</text>
+  <text class="tiny" x="901" y="362">global state = region 0</text>
+
+  <rect class="box-purple" x="1042" y="288" width="184" height="96" rx="8"/>
+  <text class="label" x="1134" y="320">SDD index</text>
+  <text class="sub" x="1134" y="342">consistent: 1.0</text>
+  <text class="sub" x="1134" y="362">complement: 2.0</text>
+
+  <rect class="box-orange" x="806" y="432" width="190" height="96" rx="8"/>
+  <text class="label" x="901" y="464">reliability</text>
+  <text class="sub" x="901" y="486">max softmax(local_t)</text>
+  <text class="tiny" x="901" y="506">range: floor to 1</text>
+
+  <rect class="box-purple" x="1042" y="432" width="184" height="96" rx="8"/>
+  <text class="label" x="1134" y="464">final weight</text>
+  <text class="sub" x="1134" y="486">SDD index</text>
+  <text class="sub" x="1134" y="506">x reliability</text>
+
+  <rect class="box-purple" x="870" y="580" width="292" height="82" rx="8"/>
+  <text class="label" x="1016" y="612">local loss</text>
+  <text class="sub" x="1016" y="634">mean(loss_vec x final_weight)</text>
+
+  <rect class="box-gray" x="824" y="708" width="386" height="158" rx="8"/>
+  <rect class="table-head" x="850" y="738" width="334" height="30"/>
+  <text class="code" x="934" y="758">region type</text>
+  <text class="code" x="1096" y="758">weight</text>
+  <rect class="table-row" x="850" y="768" width="334" height="36"/>
+  <text class="sub" x="934" y="792">consistent</text>
+  <text class="sub" x="1096" y="792">1.0 x reliability</text>
+  <rect class="table-row" x="850" y="804" width="334" height="36"/>
+  <text class="sub" x="934" y="828">complementary</text>
+  <text class="sub" x="1096" y="828">2.0 x reliability</text>
+  <text class="tiny" x="1016" y="854">consistent = local_correct equals global_correct</text>
+
+  <path class="arrow-purple" d="M610 408 C690 408 708 199 806 199"/>
+  <path class="arrow-orange" d="M610 854 C702 854 716 199 806 199"/>
+  <path class="arrow-purple" d="M996 199 H1042"/>
+  <path class="arrow-orange" d="M610 854 C714 854 710 336 806 336"/>
+  <path class="arrow-purple" d="M996 336 H1042"/>
+  <path class="arrow-orange" d="M610 854 C704 854 712 480 806 480"/>
+  <path class="arrow-purple" d="M996 480 H1042"/>
+  <path class="arrow-purple" d="M1134 240 V288"/>
+  <path class="arrow-purple" d="M1134 384 V432"/>
+  <path class="arrow-purple" d="M1134 528 C1134 556 1088 556 1060 580"/>
+  <path class="arrow-gray" d="M198 797 C510 797 664 621 870 621"/>
+
+  <!-- GAC relation panel -->
+  <rect class="panel-teal" x="1324" y="88" width="512" height="826" rx="14"/>
+  <text class="panel-label" x="1362" y="122">GAC RELATION TARGET</text>
+
+  <rect class="box-teal" x="1370" y="158" width="184" height="82" rx="8"/>
+  <text class="label" x="1462" y="190">agents_s</text>
+  <text class="sub" x="1462" y="212">from CSAM-SPR</text>
+  <rect class="box-orange" x="1604" y="158" width="184" height="82" rx="8"/>
+  <text class="label" x="1696" y="190">agents_t</text>
+  <text class="sub" x="1696" y="212">pool teacher feature</text>
+
+  <rect class="box-teal" x="1370" y="288" width="184" height="96" rx="8"/>
+  <text class="label" x="1462" y="320">normalize</text>
+  <text class="sub" x="1462" y="342">L2 on channel dim</text>
+  <text class="tiny" x="1462" y="362">[B,A,Cs]</text>
+  <rect class="box-orange" x="1604" y="288" width="184" height="96" rx="8"/>
+  <text class="label" x="1696" y="320">detach + normalize</text>
+  <text class="sub" x="1696" y="342">stable target</text>
+  <text class="tiny" x="1696" y="362">[B,A,Ct]</text>
+
+  <rect class="box-teal" x="1370" y="432" width="184" height="108" rx="8"/>
+  <text class="label" x="1462" y="462">rel_s</text>
+  <text class="sub" x="1462" y="484">s @ s^T</text>
+  <g transform="translate(1415 498)">
+    <rect class="heat1" x="0" y="0" width="16" height="16"/>
+    <rect class="heat3" x="18" y="0" width="16" height="16"/>
+    <rect class="heat2" x="36" y="0" width="16" height="16"/>
+    <rect class="heat4" x="54" y="0" width="16" height="16"/>
+    <rect class="heat3" x="0" y="18" width="16" height="16"/>
+    <rect class="heat1" x="18" y="18" width="16" height="16"/>
+    <rect class="heat2" x="36" y="18" width="16" height="16"/>
+    <rect class="heat3" x="54" y="18" width="16" height="16"/>
+  </g>
+  <text class="tiny" x="1462" y="558">[B,A,A]</text>
+
+  <rect class="box-orange" x="1604" y="432" width="184" height="108" rx="8"/>
+  <text class="label" x="1696" y="462">rel_t</text>
+  <text class="sub" x="1696" y="484">t @ t^T</text>
+  <g transform="translate(1649 498)">
+    <rect class="heat1" x="0" y="0" width="16" height="16"/>
+    <rect class="heat2" x="18" y="0" width="16" height="16"/>
+    <rect class="heat3" x="36" y="0" width="16" height="16"/>
+    <rect class="heat4" x="54" y="0" width="16" height="16"/>
+    <rect class="heat2" x="0" y="18" width="16" height="16"/>
+    <rect class="heat1" x="18" y="18" width="16" height="16"/>
+    <rect class="heat3" x="36" y="18" width="16" height="16"/>
+    <rect class="heat2" x="54" y="18" width="16" height="16"/>
+  </g>
+  <text class="tiny" x="1696" y="558">[B,A,A]</text>
+
+  <rect class="box-teal" x="1430" y="612" width="300" height="92" rx="8"/>
+  <text class="label" x="1580" y="644">relation graph loss</text>
+  <text class="sub" x="1580" y="666">KL relation distribution</text>
+  <text class="sub" x="1580" y="686">+ structural MSE</text>
+
+  <rect class="box-teal" x="1430" y="760" width="300" height="74" rx="8"/>
+  <text class="label" x="1580" y="790">loss_gac</text>
+  <text class="sub" x="1580" y="812">auxiliary relation constraint</text>
+
+  <path class="arrow-teal" d="M666 299 C874 299 1140 199 1370 199"/>
+  <path class="arrow-orange" d="M610 633 C980 633 1208 199 1604 199"/>
+  <path class="arrow-teal" d="M1462 240 V288"/>
+  <path class="arrow-orange" d="M1696 240 V288"/>
+  <path class="arrow-teal" d="M1462 384 V432"/>
+  <path class="arrow-orange" d="M1696 384 V432"/>
+  <path class="arrow-teal" d="M1462 540 C1462 584 1516 584 1544 612"/>
+  <path class="arrow-orange" d="M1696 540 C1696 584 1644 584 1618 612"/>
+  <path class="arrow-teal" d="M1580 704 V760"/>
+
+  <!-- Final objective -->
+  <rect class="panel" x="656" y="964" width="766" height="88" rx="12"/>
+  <text class="label" x="1039" y="998">training objective</text>
+  <text class="sub" x="1039" y="1024">loss = CE + global KD + local SDD + GAC + LGC</text>
+  <path class="arrow-purple" d="M1016 662 C1016 872 974 904 974 964"/>
+  <path class="arrow-teal" d="M1580 834 C1580 930 1378 930 1378 964"/>
+
+  <!-- Formula callouts -->
+  <rect class="box-gray" x="740" y="32" width="520" height="40" rx="8"/>
+  <text class="code" x="1000" y="57">local SDD: mean( base_loss(local_s, local_t) x SDD_index x reliability )</text>
+  <rect class="box-gray" x="1330" y="32" width="500" height="40" rx="8"/>
+  <text class="code" x="1580" y="57">GAC: KL(softmax(rel_t/tau) || softmax(rel_s/tau)) + MSE(rel_s, rel_t)</text>
+</svg>

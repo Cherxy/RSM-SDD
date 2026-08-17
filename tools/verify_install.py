@@ -1,4 +1,9 @@
 import importlib
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 mods = ['torch','torchvision','yaml','numpy','PIL','tqdm']
 for m in mods:
     importlib.import_module(m)

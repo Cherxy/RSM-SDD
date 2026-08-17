@@ -1,8 +1,10 @@
 from __future__ import annotations
 from pathlib import Path
 from PIL import Image
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 from torchvision import transforms, datasets
+
+from .loader_utils import build_dataloader
 
 
 class CUB200Dataset(Dataset):
@@ -43,13 +45,28 @@ def build_cub200(cfg, data_root=None):
     root = Path(data_root or getattr(cfg.DATASET, 'ROOT', './data/CUB_200_2011'))
     img = int(getattr(cfg.DATASET, 'IMG_SIZE', 224))
     mean = (0.485, 0.456, 0.406); std = (0.229, 0.224, 0.225)
-    train_tf = transforms.Compose([
-        transforms.Resize(256 if img == 224 else int(img * 256 / 224)),
-        transforms.RandomCrop(img),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize(mean, std),
-    ])
+    ds = cfg.DATASET
+    # Opt-in stronger augmentation for small fine-grained datasets (CUB overfits
+    # badly from scratch). All flags default OFF, so existing configs are
+    # byte-for-byte unchanged. Enable via the DATASET block in a new config.
+    use_rrc = bool(getattr(ds, 'RANDOM_RESIZED_CROP', False))
+    rrc_scale_min = float(getattr(ds, 'RRC_SCALE_MIN', 0.4))
+    color_jitter = float(getattr(ds, 'COLOR_JITTER', 0.0))
+    rand_erasing = float(getattr(ds, 'RANDOM_ERASING', 0.0))
+    train_ops = []
+    if use_rrc:
+        train_ops.append(transforms.RandomResizedCrop(img, scale=(rrc_scale_min, 1.0)))
+    else:
+        train_ops.append(transforms.Resize(256 if img == 224 else int(img * 256 / 224)))
+        train_ops.append(transforms.RandomCrop(img))
+    train_ops.append(transforms.RandomHorizontalFlip())
+    if color_jitter > 0:
+        train_ops.append(transforms.ColorJitter(color_jitter, color_jitter, color_jitter))
+    train_ops.append(transforms.ToTensor())
+    train_ops.append(transforms.Normalize(mean, std))
+    if rand_erasing > 0:
+        train_ops.append(transforms.RandomErasing(p=rand_erasing))
+    train_tf = transforms.Compose(train_ops)
     val_tf = transforms.Compose([
         transforms.Resize(256 if img == 224 else int(img * 256 / 224)),
         transforms.CenterCrop(img),
@@ -63,16 +80,4 @@ def build_cub200(cfg, data_root=None):
         # Fallback if user manually arranges folders train/val/class/*.jpg
         train_set = datasets.ImageFolder(root / 'train', train_tf)
         val_set = datasets.ImageFolder(root / 'val', val_tf)
-    num_workers = int(cfg.SOLVER.NUM_WORKERS)
-    loader_kwargs = {
-        'batch_size': cfg.SOLVER.BATCH_SIZE,
-        'num_workers': num_workers,
-        'pin_memory': True,
-    }
-    if num_workers > 0:
-        loader_kwargs.update({
-            'persistent_workers': True,
-            'prefetch_factor': 2,
-        })
-    return (DataLoader(train_set, shuffle=True, **loader_kwargs),
-            DataLoader(val_set, shuffle=False, **loader_kwargs))
+    return build_dataloader(train_set, cfg, shuffle=True), build_dataloader(val_set, cfg, shuffle=False)

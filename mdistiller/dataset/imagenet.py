@@ -24,8 +24,8 @@ def resolve_imagenet_root(root):
 
 def build_imagenet(cfg, data_root=None):
     _, train_dir, val_dir = resolve_imagenet_root(data_root or getattr(cfg.DATASET, 'ROOT', './data/imagenet'))
-    from torch.utils.data import DataLoader
     from torchvision import datasets, transforms
+    from .loader_utils import build_dataloader
 
     img = int(getattr(cfg.DATASET, 'IMG_SIZE', 224))
     mean = (0.485, 0.456, 0.406)
@@ -44,5 +44,4 @@ def build_imagenet(cfg, data_root=None):
     ])
     train_set = datasets.ImageFolder(train_dir, train_tf)
     val_set = datasets.ImageFolder(val_dir, val_tf)
-    return (DataLoader(train_set, batch_size=cfg.SOLVER.BATCH_SIZE, shuffle=True, num_workers=cfg.SOLVER.NUM_WORKERS, pin_memory=True),
-            DataLoader(val_set, batch_size=cfg.SOLVER.BATCH_SIZE, shuffle=False, num_workers=cfg.SOLVER.NUM_WORKERS, pin_memory=True))
+    return build_dataloader(train_set, cfg, shuffle=True), build_dataloader(val_set, cfg, shuffle=False)
